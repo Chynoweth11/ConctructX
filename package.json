@@ -5,9 +5,11 @@
   "description": "ConstructX website with a TypeScript frontend and Python backend server.",
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "dev": "npm run build && python app.py",
     "start": "python app.py",
     "backend:start": "python app.py",
-    "frontend:build": "tsc -p tsconfig.json"
+    "frontend:build": "tsc -p tsconfig.json",
+    "frontend:watch": "tsc -p tsconfig.json --watch"
   },
   "devDependencies": {
     "typescript": "^7.0.2"

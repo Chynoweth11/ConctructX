@@ -13,19 +13,27 @@ The original single-file `constructx.html` has been organized into separate fron
 
 ## Run locally
 
-```powershell
-python app.py
-```
-
-Then visit `http://localhost:8000`.
-
-## Build frontend JavaScript from TypeScript
-
 Install frontend tooling once:
 
 ```powershell
 npm install
 ```
+
+Run the full app:
+
+```powershell
+npm run dev
+```
+
+Then visit `http://localhost:8000`.
+
+You can also start only the Python backend/server:
+
+```powershell
+python app.py
+```
+
+## Build frontend JavaScript from TypeScript
 
 Compile TypeScript from `frontend/src` into `assets/js`:
 

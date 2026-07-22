@@ -44,8 +44,10 @@ The app is organized as a Python backend/server plus a TypeScript/JavaScript fro
 Run it with:
 
 ```powershell
-python app.py
+npm run dev
 ```
+
+`npm run dev` builds the TypeScript frontend first, then starts the Python backend.
 
 ## Frontend: TypeScript/JavaScript
 

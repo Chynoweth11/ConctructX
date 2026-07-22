@@ -14,6 +14,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PORT = 8000
+DEFAULT_HOST = "0.0.0.0"
 
 
 class ConstructXRequestHandler(SimpleHTTPRequestHandler):
@@ -45,10 +46,18 @@ def get_port() -> int:
         return DEFAULT_PORT
 
 
+def get_host() -> str:
+    """Read HOST from the environment, falling back to all interfaces."""
+    return os.environ.get("HOST", DEFAULT_HOST)
+
+
 def main() -> None:
+    host = get_host()
     port = get_port()
-    server = ThreadingHTTPServer(("127.0.0.1", port), ConstructXRequestHandler)
+    server = ThreadingHTTPServer((host, port), ConstructXRequestHandler)
     print(f"ConstructX is running at http://127.0.0.1:{port}")
+    if host not in {"127.0.0.1", "localhost"}:
+        print(f"Server bound to {host}:{port} for Codespaces/port forwarding.")
     print("Press Ctrl+C to stop.")
     try:
         server.serve_forever()
