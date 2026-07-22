@@ -4,6 +4,8 @@ Static marketing site for ConstructX luxury mountain residences.
 
 Note: the GitHub repository is named `ConctructX`, while the website brand shown in the page is `ConstructX`.
 
+The original single-file HTML has been organized into separate HTML, CSS, JavaScript, and image assets. See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for the full layout.
+
 ## Project structure
 
 ```text
