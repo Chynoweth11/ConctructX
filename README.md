@@ -25,7 +25,7 @@ Note: the GitHub repository is named `ConctructX`, while the website brand shown
 Open `index.html` directly in a browser, or run a local static server:
 
 ```powershell
-python -m http.server 8000
+npm start
 ```
 
 Then visit `http://localhost:8000`.

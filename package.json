@@ -1,0 +1,10 @@
+{
+  "name": "constructx",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static ConstructX luxury mountain residences website.",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "python -m http.server 8000"
+  }
+}
