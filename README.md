@@ -1,6 +1,6 @@
 # ConstructX
 
-Luxury mountain residences website for ConstructX.
+Luxury residential, commercial, interior, remodel, lake, mountain, and specialty project website for ConstructX.
 
 Note: the GitHub repository is named `ConctructX`, while the website brand shown in the page is `ConstructX`.
 

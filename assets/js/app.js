@@ -105,5 +105,5 @@
         coBtn.addEventListener('click', function () { this.textContent = 'Approved ✓'; this.style.background = 'var(--bronze-d)'; });
     var ctaSend = document.getElementById('ctaSend');
     if (ctaSend)
-        ctaSend.addEventListener('click', function () { var n = document.getElementById('cName').value.trim(); this.innerHTML = (n ? 'Thank you, ' + n.split(' ')[0] + " — we'll be in touch ✓" : 'Request received ✓'); });
+        ctaSend.addEventListener('click', function () { var n = document.getElementById('cName').value.trim(); this.innerHTML = (n ? 'Thank you, ' + n.split(' ')[0] + " — we'll reach out about your project ✓" : 'Project conversation started ✓'); });
 })();

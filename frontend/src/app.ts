@@ -67,5 +67,5 @@
   document.getElementById('sqft').addEventListener('input',function(){state.sqft=parseInt((this as HTMLInputElement).value,10);calc();});
   calc();
   var coBtn=document.getElementById('coBtn');if(coBtn)coBtn.addEventListener('click',function(){this.textContent='Approved ✓';this.style.background='var(--bronze-d)';});
-  var ctaSend=document.getElementById('ctaSend');if(ctaSend)ctaSend.addEventListener('click',function(){var n=(document.getElementById('cName') as HTMLInputElement).value.trim();this.innerHTML=(n?'Thank you, '+n.split(' ')[0]+" — we'll be in touch ✓":'Request received ✓');});
+  var ctaSend=document.getElementById('ctaSend');if(ctaSend)ctaSend.addEventListener('click',function(){var n=(document.getElementById('cName') as HTMLInputElement).value.trim();this.innerHTML=(n?'Thank you, '+n.split(' ')[0]+" — we'll reach out about your project ✓":'Project conversation started ✓');});
 })();
