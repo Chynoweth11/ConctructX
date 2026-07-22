@@ -1,0 +1,15 @@
+{
+  "name": "constructx",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ConstructX website with a TypeScript frontend and Python backend server.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "python app.py",
+    "backend:start": "python app.py",
+    "frontend:build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

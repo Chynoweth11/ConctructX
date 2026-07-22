@@ -16,6 +16,9 @@ __pycache__/
 .venv/
 venv/
 
+# Frontend dependencies
+node_modules/
+
 # Local dependency/build folders, if tooling is added later
 dist/
 build/

@@ -1,47 +1,70 @@
 # Project structure
 
-The original `constructx.html` file has been separated into a normal static website layout so the code is easier to edit in GitHub.
+The app is organized as a Python backend/server plus a TypeScript/JavaScript frontend.
 
 ```text
 .
 |-- app.py
-|-- index.html
-|-- README.md
+|-- backend
+|   |-- __init__.py
+|   `-- app.py
+|-- frontend
+|   `-- src
+|       |-- app.ts
+|       `-- hero-3d.ts
+|-- assets
+|   |-- css
+|   |   `-- styles.css
+|   |-- images
+|   |   |-- favicon.svg
+|   |   |-- hero-mountain-residence.jpg
+|   |   |-- aspen-ridge.jpg
+|   |   |-- cascade-lodge.jpg
+|   |   |-- aster-residence.jpg
+|   |   |-- mountain-estate.jpg
+|   |   `-- site-update.jpg
+|   `-- js
+|       |-- app.js
+|       `-- hero-3d.js
 |-- docs
 |   `-- PROJECT_STRUCTURE.md
-`-- assets
-    |-- css
-    |   `-- styles.css
-    |-- images
-    |   |-- favicon.svg
-    |   |-- hero-mountain-residence.jpg
-    |   |-- aspen-ridge.jpg
-    |   |-- cascade-lodge.jpg
-    |   |-- aster-residence.jpg
-    |   |-- mountain-estate.jpg
-    |   `-- site-update.jpg
-    `-- js
-        |-- app.js
-        `-- hero-3d.js
+|-- index.html
+|-- package.json
+|-- package-lock.json
+|-- README.md
+`-- tsconfig.json
 ```
 
-## What each part does
+## Backend: Python
 
-- `index.html` contains the page structure and content.
-- `assets/css/styles.css` contains the full visual design, layout, responsive styles, and animations.
-- `assets/js/app.js` contains site interactions like navigation, reveal animations, estimator controls, map/team interactions, and the contact CTA.
-- `assets/js/hero-3d.js` contains the interactive Three.js hero scene.
-- `assets/images/` contains the images that were extracted from the original embedded base64 HTML.
-- `app.py` is the Python server entrypoint for running the app/site locally.
+- `backend/app.py` contains the Python HTTP server.
+- `app.py` is a tiny root launcher that imports and runs the backend.
+- The backend serves `index.html` and static files from the repo root.
 
-## Run locally
+Run it with:
 
 ```powershell
 python app.py
 ```
 
-Then open `http://localhost:8000`.
+## Frontend: TypeScript/JavaScript
 
-## GitHub Pages
+- `frontend/src/app.ts` contains navigation, reveal animations, estimator controls, map/team interactions, and contact CTA behavior.
+- `frontend/src/hero-3d.ts` contains the interactive Three.js hero scene.
+- `assets/js/app.js` and `assets/js/hero-3d.js` are generated browser JavaScript files.
 
-This repo includes `.nojekyll`, so the static files can be served directly by GitHub Pages or another static host.
+Build the frontend with:
+
+```powershell
+npm run build
+```
+
+## Static assets
+
+- `index.html` contains the page structure and content.
+- `assets/css/styles.css` contains the visual design, layout, responsive styles, and animations.
+- `assets/images/` contains the images extracted from the original embedded base64 HTML.
+
+## GitHub Pages/static hosting
+
+This repo includes `.nojekyll`, so the static files can also be served directly by GitHub Pages or another static host.
