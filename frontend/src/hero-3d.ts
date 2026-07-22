@@ -47,7 +47,7 @@
       powerPreference: "high-performance",
     });
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(width, height);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = T.PCFSoftShadowMap;
@@ -55,12 +55,13 @@
     if (T.SRGBColorSpace) renderer.outputColorSpace = T.SRGBColorSpace;
     else if (T.sRGBEncoding) renderer.outputEncoding = T.sRGBEncoding;
     if (T.ACESFilmicToneMapping) renderer.toneMapping = T.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 0.82;
     mount.appendChild(renderer.domElement);
 
     var scene = new T.Scene();
     var residence = new T.Group();
-    residence.position.set(0.72, 0, 0.22);
+    residence.position.set(0.28, -0.05, 0.32);
+    residence.scale.set(0.9, 0.9, 0.9);
     scene.add(residence);
 
     var seed = 18;
@@ -184,15 +185,91 @@
       return c;
     }
 
+    function roomCanvas() {
+      var c = cnv(512, 512);
+      var x = c.getContext("2d");
+      var wall = x.createLinearGradient(0, 0, 0, 512);
+      wall.addColorStop(0, "#f1d7ad");
+      wall.addColorStop(0.35, "#c9945e");
+      wall.addColorStop(1, "#33251d");
+      x.fillStyle = wall;
+      x.fillRect(0, 0, 512, 512);
+
+      var sideShade = x.createLinearGradient(0, 0, 512, 0);
+      sideShade.addColorStop(0, "rgba(0,0,0,.35)");
+      sideShade.addColorStop(0.52, "rgba(255,219,154,.18)");
+      sideShade.addColorStop(1, "rgba(0,0,0,.5)");
+      x.fillStyle = sideShade;
+      x.fillRect(0, 0, 512, 512);
+
+      for (var i = 0; i < 7; i++) {
+        var lx = 64 + i * 68 + rnd() * 18;
+        var beam = x.createRadialGradient(lx, 58, 4, lx, 58, 120);
+        beam.addColorStop(0, "rgba(255,222,154,.75)");
+        beam.addColorStop(1, "rgba(255,222,154,0)");
+        x.fillStyle = beam;
+        x.fillRect(lx - 120, 0, 240, 220);
+        x.fillStyle = "rgba(255,231,180,.95)";
+        x.beginPath();
+        x.arc(lx, 58, 5, 0, Math.PI * 2);
+        x.fill();
+      }
+
+      x.fillStyle = "rgba(21,18,16,.76)";
+      x.fillRect(38, 365, 170, 55);
+      x.fillRect(284, 350, 130, 54);
+      x.fillRect(312, 306, 64, 46);
+      x.fillStyle = "rgba(55,40,30,.72)";
+      x.fillRect(210, 382, 58, 30);
+      x.fillRect(428, 378, 42, 36);
+
+      x.fillStyle = "rgba(255,244,218,.24)";
+      x.fillRect(122, 142, 74, 54);
+      x.fillRect(340, 130, 82, 66);
+      x.strokeStyle = "rgba(36,30,26,.56)";
+      x.lineWidth = 8;
+      x.strokeRect(122, 142, 74, 54);
+      x.strokeRect(340, 130, 82, 66);
+
+      for (var s = 0; s < 1100; s++) {
+        x.fillStyle = "rgba(255,238,200," + rnd() * 0.045 + ")";
+        x.fillRect(rnd() * 512, rnd() * 512, 1, 1);
+      }
+      return c;
+    }
+
+    function glassReflectionCanvas() {
+      var c = cnv(512, 512);
+      var x = c.getContext("2d");
+      x.clearRect(0, 0, 512, 512);
+      var g = x.createLinearGradient(0, 0, 512, 512);
+      g.addColorStop(0, "rgba(255,255,255,.42)");
+      g.addColorStop(0.18, "rgba(255,255,255,0)");
+      g.addColorStop(0.52, "rgba(180,210,245,.22)");
+      g.addColorStop(0.66, "rgba(255,255,255,0)");
+      g.addColorStop(1, "rgba(255,255,255,.16)");
+      x.fillStyle = g;
+      x.fillRect(0, 0, 512, 512);
+      for (var i = 0; i < 9; i++) {
+        x.strokeStyle = "rgba(255,255,255," + (0.08 + rnd() * 0.12) + ")";
+        x.lineWidth = 5 + rnd() * 12;
+        x.beginPath();
+        x.moveTo(-80 + rnd() * 220, 40 + i * 54);
+        x.lineTo(560, -60 + i * 70);
+        x.stroke();
+      }
+      return c;
+    }
+
     function skyCanvas() {
       var c = cnv(1400, 700);
       var x = c.getContext("2d");
       var sky = x.createLinearGradient(0, 0, 0, 700);
-      sky.addColorStop(0, "#495e81");
-      sky.addColorStop(0.28, "#8ea2c0");
-      sky.addColorStop(0.52, "#d7c0b7");
-      sky.addColorStop(0.72, "#d9dce2");
-      sky.addColorStop(1, "#b6beca");
+      sky.addColorStop(0, "#34445f");
+      sky.addColorStop(0.26, "#7f90af");
+      sky.addColorStop(0.48, "#d7b7ad");
+      sky.addColorStop(0.68, "#d6dbe4");
+      sky.addColorStop(1, "#aeb8c6");
       x.fillStyle = sky;
       x.fillRect(0, 0, 1400, 700);
 
@@ -203,23 +280,24 @@
       x.fillStyle = sun;
       x.fillRect(0, 0, 1400, 480);
 
-      for (var i = 0; i < 52; i++) {
+      for (var i = 0; i < 68; i++) {
         var cx = rnd() * 1400;
         var cy = 70 + rnd() * 220;
         var cloud = x.createRadialGradient(cx, cy, 10, cx, cy, 150 + rnd() * 120);
-        cloud.addColorStop(0, "rgba(255,245,236,.22)");
+        cloud.addColorStop(0, "rgba(255,245,236,.17)");
         cloud.addColorStop(1, "rgba(255,245,236,0)");
         x.fillStyle = cloud;
         x.fillRect(cx - 240, cy - 100, 480, 240);
       }
 
-      function ridge(baseY, minH, maxH, color, snowColor) {
+      function ridge(baseY, minH, maxH, color, snowColor, startBias) {
         var pts = [];
         x.beginPath();
         x.moveTo(0, baseY);
-        for (var r = 0; r <= 16; r++) {
-          var px = (r / 16) * 1400;
+        for (var r = 0; r <= 20; r++) {
+          var px = (r / 20) * 1400;
           var py = baseY - (minH + Math.abs(Math.sin(r * 1.63 + baseY * 0.02)) * (maxH - minH));
+          if (px < startBias) py = baseY - minH * 0.28;
           pts.push([px, py]);
           x.lineTo(px, py);
         }
@@ -241,30 +319,50 @@
         });
       }
 
-      ridge(438, 96, 220, "rgba(65,78,104,.84)", "rgba(233,239,248,.94)");
-      ridge(454, 54, 152, "rgba(35,53,78,.78)", "rgba(221,231,242,.86)");
+      ridge(420, 70, 170, "rgba(73,86,111,.76)", "rgba(233,239,248,.9)", 420);
+      ridge(456, 38, 118, "rgba(35,53,78,.74)", "rgba(221,231,242,.8)", 520);
+      x.fillStyle = "rgba(19,35,47,.38)";
+      for (var f = 0; f < 260; f++) {
+        var tx = 680 + rnd() * 660;
+        var ty = 355 + rnd() * 120;
+        var th = 10 + rnd() * 34;
+        x.beginPath();
+        x.moveTo(tx, ty - th);
+        x.lineTo(tx - th * 0.28, ty);
+        x.lineTo(tx + th * 0.28, ty);
+        x.closePath();
+        x.fill();
+      }
       return c;
     }
 
-    var stoneMap = texture(stoneCanvas(), 2.8, 1.8);
+    var stoneMap = texture(stoneCanvas(), 3.6, 2.2);
     var stoneMat = new T.MeshStandardMaterial({
       map: stoneMap,
-      color: 0x8e887c,
-      roughness: 0.88,
-      metalness: 0.02,
+      bumpMap: stoneMap,
+      bumpScale: 0.035,
+      color: 0x847766,
+      roughness: 0.96,
+      metalness: 0.015,
     });
     var darkStoneMat = new T.MeshStandardMaterial({
       map: stoneMap.clone(),
-      color: 0x5d5a52,
-      roughness: 0.94,
+      bumpMap: stoneMap.clone(),
+      bumpScale: 0.04,
+      color: 0x62594a,
+      roughness: 0.98,
       metalness: 0.01,
     });
-    darkStoneMat.map.repeat.set(2.4, 2.2);
+    darkStoneMat.map.repeat.set(3.2, 2.6);
+    darkStoneMat.bumpMap.repeat.set(3.2, 2.6);
 
+    var woodMap = texture(woodCanvas(), 4.4, 1);
     var woodMat = new T.MeshStandardMaterial({
-      map: texture(woodCanvas(), 3.4, 1),
-      color: 0xb97639,
-      roughness: 0.55,
+      map: woodMap,
+      bumpMap: woodMap,
+      bumpScale: 0.025,
+      color: 0x8f5428,
+      roughness: 0.62,
       metalness: 0,
     });
     var roofMat = new T.MeshStandardMaterial({
@@ -281,15 +379,16 @@
     });
     var snowMat = new T.MeshStandardMaterial({ color: 0xf2f6fb, roughness: 0.83 });
     var glassMat = new T.MeshPhysicalMaterial({
-      color: 0x9eb1c3,
-      roughness: 0.02,
-      metalness: 0.08,
+      map: texture(glassReflectionCanvas(), 1, 1, 4),
+      color: 0x4e6071,
+      roughness: 0.075,
+      metalness: 0.16,
       clearcoat: 1,
-      clearcoatRoughness: 0.02,
+      clearcoatRoughness: 0.03,
       transparent: true,
-      opacity: 0.38,
-      reflectivity: 0.75,
-      envMapIntensity: 1.9,
+      opacity: 0.58,
+      reflectivity: 0.92,
+      envMapIntensity: 2.4,
     });
     var railMat = new T.MeshPhysicalMaterial({
       color: 0xc6d9e7,
@@ -301,12 +400,17 @@
       envMapIntensity: 1.35,
     });
     var warmMat = new T.MeshStandardMaterial({
-      color: 0xffd19a,
-      emissive: 0xffb668,
-      emissiveIntensity: 1.45,
+      color: 0xb87943,
+      emissive: 0xffa758,
+      emissiveIntensity: 0.35,
       roughness: 0.72,
     });
-    var warmSoftMat = new T.MeshBasicMaterial({ color: 0xffd09a, transparent: true, opacity: 0.72 });
+    var warmSoftMat = new T.MeshBasicMaterial({ color: 0xffbd73, transparent: true, opacity: 0.26 });
+    var roomMat = new T.MeshBasicMaterial({
+      map: texture(roomCanvas(), 1, 1, 4),
+      transparent: true,
+      opacity: 0.95,
+    });
     var tileMat = new T.MeshStandardMaterial({
       map: texture(tileCanvas(), 3.5, 2.2),
       color: 0xb3afa7,
@@ -334,8 +438,10 @@
     }
 
     function addFrontGlass(x, y, z, w, h, cols, rows) {
-      box(w, h, 0.035, warmMat, x, y, z - 0.05);
-      var glow = mesh(new T.PlaneGeometry(w * 0.95, h * 0.92), warmSoftMat, x, y, z - 0.02, 0, 0, 0);
+      var room = mesh(new T.PlaneGeometry(w * 0.97, h * 0.94), roomMat, x, y, z - 0.06, 0, 0, 0);
+      room.castShadow = false;
+      room.receiveShadow = false;
+      var glow = mesh(new T.PlaneGeometry(w * 0.95, h * 0.92), warmSoftMat, x, y, z - 0.025, 0, 0, 0);
       glow.castShadow = false;
       glow.receiveShadow = false;
       box(w, h, 0.045, glassMat, x, y, z);
@@ -352,7 +458,9 @@
     }
 
     function addSideGlass(x, y, z, d, h, cols, rows) {
-      box(0.035, h, d, warmMat, x + 0.045, y, z);
+      var sideRoom = mesh(new T.PlaneGeometry(d * 0.96, h * 0.94), roomMat, x + 0.06, y, z, 0, Math.PI / 2, 0);
+      sideRoom.castShadow = false;
+      sideRoom.receiveShadow = false;
       box(0.045, h, d, glassMat, x, y, z);
       box(0.07, 0.055, d + 0.12, frameMat, x - 0.04, y + h / 2, z);
       box(0.07, 0.055, d + 0.12, frameMat, x - 0.04, y - h / 2, z);
@@ -491,29 +599,30 @@
       }
     }
 
-    pine(-5.05, 1.42, 2.45, -0.04);
-    pine(-4.8, -1.85, 2.8, 0.03);
-    pine(-4.7, 3.55, 1.65, -0.02);
-    pine(4.85, 1.55, 2.0, 0.02);
-    pine(4.7, -2.4, 2.35, -0.02);
-    pine(5.6, 3.35, 1.65, 0.03);
-    pine(2.35, -3.6, 1.65, 0);
-    pine(-2.2, -3.85, 1.9, -0.02);
+    pine(-5.6, 1.85, 1.55, -0.04);
+    pine(-5.25, -2.45, 1.85, 0.03);
+    pine(-5.0, 3.85, 1.25, -0.02);
+    pine(5.15, 1.85, 1.45, 0.02);
+    pine(5.1, -2.8, 1.65, -0.02);
+    pine(5.9, 3.65, 1.22, 0.03);
+    pine(2.65, -4.15, 1.25, 0);
+    pine(-2.45, -4.35, 1.35, -0.02);
 
     // Background world: sky, mountains, soft shadows. These stay stable while the model rotates.
     var skyTex = texture(skyCanvas(), 1, 1, 4);
-    if (T.EquirectangularReflectionMapping) skyTex.mapping = T.EquirectangularReflectionMapping;
     scene.background = skyTex;
-    scene.fog = new T.Fog(new T.Color(0xa7adba), 21, 62);
+    scene.fog = new T.Fog(new T.Color(0x9ca8b8), 16, 58);
     try {
+      var envTex = skyTex.clone();
+      if (T.EquirectangularReflectionMapping) envTex.mapping = T.EquirectangularReflectionMapping;
       var pmrem = new T.PMREMGenerator(renderer);
       pmrem.compileEquirectangularShader();
-      scene.environment = pmrem.fromEquirectangular(skyTex).texture;
+      scene.environment = pmrem.fromEquirectangular(envTex).texture;
     } catch (error) {
       scene.environment = skyTex;
     }
 
-    var ground = new T.Mesh(new T.PlaneGeometry(240, 240), new T.MeshStandardMaterial({ color: 0xeaf0f6, roughness: 0.92 }));
+    var ground = new T.Mesh(new T.PlaneGeometry(240, 240), new T.MeshStandardMaterial({ color: 0xdfe6ef, roughness: 0.94 }));
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -0.065;
     ground.receiveShadow = true;
@@ -534,8 +643,8 @@
     softShadow.position.set(0.55, 0.01, 0.82);
     scene.add(softShadow);
 
-    scene.add(new T.HemisphereLight(0xb9c8e8, 0x2a221b, 0.42));
-    var sun = new T.DirectionalLight(0xffc384, 2.25);
+    scene.add(new T.HemisphereLight(0xb9c8e8, 0x261d17, 0.34));
+    var sun = new T.DirectionalLight(0xffbf82, 1.82);
     sun.position.set(7.5, 7.4, 7.8);
     sun.castShadow = true;
     sun.shadow.mapSize.set(2048, 2048);
@@ -548,19 +657,19 @@
     sun.shadow.bias = -0.00035;
     scene.add(sun);
 
-    var fill = new T.DirectionalLight(0x8ea7d6, 0.52);
+    var fill = new T.DirectionalLight(0x8ea7d6, 0.38);
     fill.position.set(-6, 3.8, -5);
     scene.add(fill);
 
-    var interiorBoost = new T.PointLight(0xffbf78, 1.1, 10, 2);
+    var interiorBoost = new T.PointLight(0xffb76d, 1.35, 10, 2);
     interiorBoost.position.set(0.4, 2.1, 2.15);
     residence.add(interiorBoost);
 
-    var camera = new T.PerspectiveCamera(30, width / height, 0.1, 250);
-    camera.position.set(6.7, 3.15, 8.55);
-    camera.lookAt(new T.Vector3(0.42, 2.1, 0.65));
+    var camera = new T.PerspectiveCamera(28, width / height, 0.1, 250);
+    camera.position.set(6.25, 2.82, 9.7);
+    camera.lookAt(new T.Vector3(0.18, 2.08, 0.78));
 
-    var targetRotation = -0.42;
+    var targetRotation = -0.33;
     var rotation = targetRotation;
     var dragging = false;
     var pointerX = 0;
