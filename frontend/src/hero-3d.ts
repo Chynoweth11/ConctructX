@@ -1,86 +1,611 @@
-(function(){
-  var T=(window as any).THREE,mount=document.getElementById('hero3d'),heroImg=document.getElementById('heroImg');
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function fallback(){if(heroImg)heroImg.style.display='';if(mount)mount.style.display='none';}
-  var gl=false;try{var tc=document.createElement('canvas');gl=!!(window.WebGLRenderingContext&&(tc.getContext('webgl')||tc.getContext('experimental-webgl')));}catch(e){gl=false;}
-  if(!T||!mount||!gl){fallback();return;}
-  function start(){try{buildHero();}catch(e){fallback();}}
-  if(document.readyState==='complete')start();else window.addEventListener('load',start);
+// @ts-nocheck
+(function () {
+  var T = (window as any).THREE;
+  var mount = document.getElementById("hero3d");
+  var heroImg = document.getElementById("heroImg");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function buildHero(){
-    var W=mount.clientWidth||900,H=mount.clientHeight||700;
-    var renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'});
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.setSize(W,H);
-    renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
-    if(T.sRGBEncoding)renderer.outputEncoding=T.sRGBEncoding;
-    if(T.ACESFilmicToneMapping)renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.16;
+  function fallback() {
+    if (heroImg) heroImg.style.display = "";
+    if (mount) mount.style.display = "none";
+  }
+
+  var gl = false;
+  try {
+    var testCanvas = document.createElement("canvas");
+    gl = !!(
+      window.WebGLRenderingContext &&
+      (testCanvas.getContext("webgl") || testCanvas.getContext("experimental-webgl"))
+    );
+  } catch (error) {
+    gl = false;
+  }
+
+  if (!T || !mount || !gl) {
+    fallback();
+    return;
+  }
+
+  function start() {
+    try {
+      buildHero();
+    } catch (error) {
+      console.warn("ConstructX hero render fell back to the still image.", error);
+      fallback();
+    }
+  }
+
+  if (document.readyState === "complete") start();
+  else window.addEventListener("load", start);
+
+  function buildHero() {
+    var width = mount.clientWidth || 1200;
+    var height = mount.clientHeight || 760;
+    var renderer = new T.WebGLRenderer({
+      antialias: true,
+      alpha: false,
+      powerPreference: "high-performance",
+    });
+
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setSize(width, height);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = T.PCFSoftShadowMap;
+    renderer.physicallyCorrectLights = true;
+    if (T.SRGBColorSpace) renderer.outputColorSpace = T.SRGBColorSpace;
+    else if (T.sRGBEncoding) renderer.outputEncoding = T.sRGBEncoding;
+    if (T.ACESFilmicToneMapping) renderer.toneMapping = T.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.08;
     mount.appendChild(renderer.domElement);
-    var scene=new T.Scene();
 
-    function cnv(w,h){var c=document.createElement('canvas');c.width=w;c.height=h;return c;}
-    function tex(canvas,rx,ry){var t=new T.CanvasTexture(canvas);t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(rx||1,ry||1);if(T.sRGBEncoding)t.encoding=T.sRGBEncoding;t.anisotropy=4;return t;}
-    var stoneC=(function(){var c=cnv(256,256),x=c.getContext('2d');x.fillStyle='#c7bfae';x.fillRect(0,0,256,256);var y=0,row=0;while(y<256){var bh=26;for(var bx=(row%2?-24:0);bx<256;bx+=52){var bw=44+((bx*13+row*7)%16);var tt=196+((bx*row*17)%44);x.fillStyle='rgb('+(tt-18)+','+(tt-28)+','+(tt-46)+')';x.fillRect(bx+1,y+1,bw-2,bh-2);}x.strokeStyle='rgba(120,110,92,.85)';x.lineWidth=2;x.beginPath();x.moveTo(0,y);x.lineTo(256,y);x.stroke();y+=bh;row++;}for(var i=0;i<1600;i++){x.fillStyle='rgba(0,0,0,'+(Math.random()*0.05)+')';x.fillRect(Math.random()*256,Math.random()*256,1,1);}return c;})();
-    var woodC=(function(){var c=cnv(256,256),x=c.getContext('2d');x.fillStyle='#8a5f38';x.fillRect(0,0,256,256);for(var px=0;px<256;px+=22){x.fillStyle='rgba(60,40,22,.55)';x.fillRect(px,0,2,256);for(var s=0;s<44;s++){x.fillStyle='rgba('+(140+Math.random()*40|0)+','+(95+Math.random()*30|0)+','+(55+Math.random()*20|0)+',.16)';x.fillRect(px+2+Math.random()*18,Math.random()*256,10,1);}}return c;})();
-    function facadeC(cols,rows){var c=cnv(256,256),x=c.getContext('2d');var g2=x.createLinearGradient(0,0,220,256);g2.addColorStop(0,'#e6d9b8');g2.addColorStop(.5,'#f4e8c8');g2.addColorStop(1,'#d6c096');x.fillStyle=g2;x.fillRect(0,0,256,256);x.strokeStyle='rgba(28,22,16,.72)';x.lineWidth=4;for(var a=0;a<=cols;a++){x.beginPath();x.moveTo(a*256/cols,0);x.lineTo(a*256/cols,256);x.stroke();}for(var b=0;b<=rows;b++){x.beginPath();x.moveTo(0,b*256/rows);x.lineTo(256,b*256/rows);x.stroke();}return c;}
+    var scene = new T.Scene();
+    var residence = new T.Group();
+    residence.position.set(0.72, 0, 0.22);
+    scene.add(residence);
 
-    function stoneMat(rx,ry){return new T.MeshStandardMaterial({map:tex(stoneC,rx,ry),roughness:.9,metalness:0,envMapIntensity:.5});}
-    function woodMat(rx,ry){return new T.MeshStandardMaterial({map:tex(woodC,rx,ry),roughness:.6,metalness:0,envMapIntensity:.3});}
-    function glassMat(cols,rows){return new T.MeshPhysicalMaterial({map:tex(facadeC(cols,rows),1,1),color:0xdfe7ee,metalness:0,roughness:.05,clearcoat:1,clearcoatRoughness:.05,transparent:true,opacity:.4,envMapIntensity:1.4});}
-    var bronzeMat=new T.MeshStandardMaterial({color:0x241f18,metalness:.65,roughness:.4,envMapIntensity:1.2});
-    var snowMat=new T.MeshStandardMaterial({color:0xeef3f8,roughness:.85,metalness:0});
-    var railMat=new T.MeshPhysicalMaterial({color:0xcfe0ea,metalness:0,roughness:.05,transparent:true,opacity:.16,clearcoat:1});
-    function warmMat(){return new T.MeshBasicMaterial({color:0xffcf8f});}
+    var seed = 18;
+    function rnd() {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    }
 
-    var g=new T.Group();scene.add(g);
-    function box(w,h,d,m,x,y,z){var b=new T.Mesh(new T.BoxGeometry(w,h,d),m);b.position.set(x,y,z);b.castShadow=true;b.receiveShadow=true;g.add(b);return b;}
-    function warm(w,h,x,y,z){var p=new T.Mesh(new T.PlaneGeometry(w,h),warmMat());p.position.set(x,y,z);g.add(p);return p;}
+    function cnv(w, h) {
+      var canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      return canvas;
+    }
 
-    box(6.4,0.16,4.2,stoneMat(4,2),0,0.08,1.4);
-    box(5,1.5,3.2,stoneMat(4,2),0,0.78,0);
-    warm(3.4,1.05,0.3,0.75,1.54);box(3.5,1.15,0.06,glassMat(4,2),0.3,0.75,1.6);
-    box(5.7,0.2,3.8,bronzeMat,0,1.64,0);
-    box(4.7,1.4,3.0,stoneMat(4,2),-0.1,2.5,0);
-    warm(3.7,1.0,0.25,2.5,1.5);box(3.8,1.15,0.06,glassMat(5,2),0.25,2.5,1.56);
-    box(4.6,0.5,0.04,railMat,0.2,1.98,1.78);
-    box(5.5,0.2,3.7,bronzeMat,-0.05,3.34,0);
-    box(3.4,1.3,2.4,stoneMat(3,2),-0.4,4.05,-0.1);
-    warm(2.2,0.95,0.1,4.05,1.14);box(2.3,1.05,0.06,glassMat(3,2),0.1,4.05,1.2);
-    box(3.2,0.4,0.04,railMat,0.1,3.55,1.25);
-    box(3.7,0.18,2.8,bronzeMat,-0.4,4.75,-0.1);
-    box(3.5,0.07,2.6,snowMat,-0.4,4.85,-0.1);
-    box(0.85,2.7,0.85,stoneMat(1,3),1.75,3.5,-0.2);
-    box(0.98,0.16,0.98,bronzeMat,1.75,4.9,-0.2);
-    box(4.6,0.06,0.5,woodMat(4,1),0.2,1.55,1.75);
-    box(4.4,0.06,0.5,woodMat(4,1),0.15,3.25,1.7);
+    function texture(canvas, repeatX, repeatY, anisotropy) {
+      var tex = new T.CanvasTexture(canvas);
+      tex.wrapS = tex.wrapT = T.RepeatWrapping;
+      tex.repeat.set(repeatX || 1, repeatY || 1);
+      tex.anisotropy = anisotropy || 8;
+      if (T.SRGBColorSpace) tex.colorSpace = T.SRGBColorSpace;
+      else if (T.sRGBEncoding) tex.encoding = T.sRGBEncoding;
+      return tex;
+    }
 
-    function pine(x,z,h){var tr=new T.Mesh(new T.CylinderGeometry(0.05*h,0.075*h,0.32*h,6),new T.MeshStandardMaterial({color:0x53402c,roughness:.9}));tr.position.set(x,0.16*h,z);tr.castShadow=true;g.add(tr);var green=new T.MeshStandardMaterial({color:0x2c4531,roughness:.9});for(var i=0;i<4;i++){var t=i/4,r=0.34*h*(1-t*0.68),ch=0.44*h*(1-t*0.22),cy=0.3*h+i*0.24*h;var cone=new T.Mesh(new T.ConeGeometry(r,ch,8),green);cone.position.set(x,cy,z);cone.castShadow=true;g.add(cone);var cap=new T.Mesh(new T.ConeGeometry(r*0.72,ch*0.5,8),snowMat);cap.position.set(x,cy+ch*0.24,z);g.add(cap);}}
-    pine(-3.1,2.0,3.7);pine(3.2,1.6,3.1);pine(-3.4,-1.6,4.0);pine(3.4,-1.9,3.4);pine(-4.2,0.3,3.3);
+    function stoneCanvas() {
+      var c = cnv(512, 512);
+      var x = c.getContext("2d");
+      x.fillStyle = "#7f786c";
+      x.fillRect(0, 0, 512, 512);
 
-    function glight(x,z){var st=new T.Mesh(new T.CylinderGeometry(0.015,0.015,0.5,5),bronzeMat);st.position.set(x,0.25,z);g.add(st);var gl2=new T.Mesh(new T.SphereGeometry(0.07,10,8),warmMat());gl2.position.set(x,0.5,z);g.add(gl2);}
-    for(var i=0;i<7;i++){glight(-2.4+i*0.7,2.35);}
+      var y = 0;
+      var row = 0;
+      while (y < 512) {
+        var blockH = 22 + Math.floor(rnd() * 18);
+        var offset = row % 2 ? -44 : 0;
+        for (var bx = offset; bx < 512; bx += 70 + Math.floor(rnd() * 34)) {
+          var blockW = 54 + Math.floor(rnd() * 56);
+          var shade = 100 + Math.floor(rnd() * 72);
+          var warm = Math.floor(rnd() * 24);
+          x.fillStyle =
+            "rgb(" +
+            (shade + warm) +
+            "," +
+            (shade + Math.floor(warm * 0.78)) +
+            "," +
+            (shade - 8) +
+            ")";
+          x.fillRect(bx + 2, y + 2, blockW - 3, blockH - 3);
+          if (rnd() > 0.58) {
+            x.fillStyle = "rgba(255,255,255,.09)";
+            x.fillRect(bx + 4, y + 3, blockW * 0.55, 2);
+          }
+          if (rnd() > 0.68) {
+            x.fillStyle = "rgba(0,0,0,.12)";
+            x.fillRect(bx + blockW - 8, y + 4, 3, blockH - 8);
+          }
+        }
+        x.strokeStyle = "rgba(40,36,31,.44)";
+        x.lineWidth = 2;
+        x.beginPath();
+        x.moveTo(0, y);
+        x.lineTo(512, y);
+        x.stroke();
+        y += blockH;
+        row++;
+      }
 
-    var ground=new T.Mesh(new T.PlaneGeometry(200,200),new T.MeshStandardMaterial({color:0xe8edf3,roughness:1}));ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
-    var scv=cnv(128,128),scx=scv.getContext('2d');var rgs=scx.createRadialGradient(64,64,8,64,64,64);rgs.addColorStop(0,'rgba(20,18,14,.4)');rgs.addColorStop(1,'rgba(20,18,14,0)');scx.fillStyle=rgs;scx.fillRect(0,0,128,128);
-    var blob=new T.Mesh(new T.PlaneGeometry(12,9),new T.MeshBasicMaterial({map:new T.CanvasTexture(scv),transparent:true,depthWrite:false}));blob.rotation.x=-Math.PI/2;blob.position.set(0,0.02,0.4);scene.add(blob);
+      for (var i = 0; i < 7000; i++) {
+        x.fillStyle = "rgba(255,255,255," + rnd() * 0.055 + ")";
+        x.fillRect(rnd() * 512, rnd() * 512, 1, 1);
+        x.fillStyle = "rgba(0,0,0," + rnd() * 0.045 + ")";
+        x.fillRect(rnd() * 512, rnd() * 512, 1, 1);
+      }
+      return c;
+    }
 
-    var sky=(function(){var c=cnv(1024,512),x=c.getContext('2d');var grd=x.createLinearGradient(0,0,0,512);grd.addColorStop(0,'#2f3a63');grd.addColorStop(.5,'#f0b07a');grd.addColorStop(.52,'#cfd6de');grd.addColorStop(1,'#bfc6cf');x.fillStyle=grd;x.fillRect(0,0,1024,512);var sx2=0.8*1024,sy2=0.7*512*0.55;var rg2=x.createRadialGradient(sx2,sy2,4,sx2,sy2,300);rg2.addColorStop(0,'#ffdca6');rg2.addColorStop(.15,'rgba(255,210,140,.6)');rg2.addColorStop(1,'rgba(255,210,140,0)');x.fillStyle=rg2;x.fillRect(0,0,1024,340);function ridge(baseY,minH,maxH,col,snow){x.beginPath();x.moveTo(0,baseY);var n=14,pts=[];for(var i=0;i<=n;i++){var pxx=i/n*1024,pyy=baseY-(minH+Math.abs(Math.sin(i*1.7+baseY))*(maxH-minH));pts.push([pxx,pyy]);x.lineTo(pxx,pyy);}x.lineTo(1024,baseY);x.closePath();x.fillStyle=col;x.fill();x.fillStyle=snow;for(var j=0;j<pts.length;j++){var p=pts[j];if(baseY-p[1]>minH+(maxH-minH)*0.45){x.beginPath();x.moveTo(p[0],p[1]);x.lineTo(p[0]-13,p[1]+20);x.lineTo(p[0]+13,p[1]+20);x.closePath();x.fill();}}}ridge(262,60,150,'rgba(143,160,189,.85)','rgba(238,243,250,.9)');ridge(266,30,90,'rgba(109,127,158,.95)','rgba(226,234,244,.85)');var t=new T.CanvasTexture(c);t.mapping=T.EquirectangularReflectionMapping;if(T.sRGBEncoding)t.encoding=T.sRGBEncoding;return t;})();
-    scene.background=sky;scene.fog=new T.Fog(new T.Color(0xdcc6b2),18,54);
-    var envMap=sky;try{var pm=new T.PMREMGenerator(renderer);pm.compileEquirectangularShader();envMap=pm.fromEquirectangular(sky).texture;}catch(e){}
-    scene.environment=envMap;
+    function woodCanvas() {
+      var c = cnv(512, 512);
+      var x = c.getContext("2d");
+      var grad = x.createLinearGradient(0, 0, 512, 64);
+      grad.addColorStop(0, "#5b351c");
+      grad.addColorStop(0.48, "#b36f35");
+      grad.addColorStop(1, "#4c2b17");
+      x.fillStyle = grad;
+      x.fillRect(0, 0, 512, 512);
+      for (var px = 0; px < 512; px += 18) {
+        x.fillStyle = "rgba(28,15,8,.42)";
+        x.fillRect(px, 0, 2, 512);
+        x.fillStyle = "rgba(255,210,140,.12)";
+        x.fillRect(px + 4, 0, 1, 512);
+      }
+      for (var j = 0; j < 1400; j++) {
+        x.fillStyle = "rgba(255,200,126," + rnd() * 0.08 + ")";
+        x.fillRect(rnd() * 512, rnd() * 512, 30 + rnd() * 70, 1);
+      }
+      return c;
+    }
 
-    scene.add(new T.HemisphereLight(0x9fb0d0,0x2b2620,.55));
-    var sun=new T.DirectionalLight(0xffc27a,1.7);sun.position.set(7,5,5);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.near=.5;sun.shadow.camera.far=60;var bnd=10;sun.shadow.camera.left=-bnd;sun.shadow.camera.right=bnd;sun.shadow.camera.top=bnd;sun.shadow.camera.bottom=-bnd;sun.shadow.bias=-0.0004;sun.shadow.radius=6;scene.add(sun);
-    var fl=new T.DirectionalLight(0x7d8fd0,.28);fl.position.set(-6,4,-4);scene.add(fl);
-    var pl=new T.PointLight(0xffb060,.7,10);pl.position.set(0.4,1.3,3);scene.add(pl);
+    function tileCanvas() {
+      var c = cnv(512, 512);
+      var x = c.getContext("2d");
+      x.fillStyle = "#a9a39a";
+      x.fillRect(0, 0, 512, 512);
+      x.strokeStyle = "rgba(58,54,48,.36)";
+      x.lineWidth = 3;
+      for (var p = 0; p <= 512; p += 64) {
+        x.beginPath();
+        x.moveTo(p, 0);
+        x.lineTo(p, 512);
+        x.stroke();
+        x.beginPath();
+        x.moveTo(0, p);
+        x.lineTo(512, p);
+        x.stroke();
+      }
+      for (var k = 0; k < 1000; k++) {
+        x.fillStyle = "rgba(255,255,255," + rnd() * 0.04 + ")";
+        x.fillRect(rnd() * 512, rnd() * 512, 2, 2);
+      }
+      return c;
+    }
 
-    var cam=new T.PerspectiveCamera(33,W/H,0.1,300);cam.position.set(7,3.6,9.6);cam.lookAt(new T.Vector3(0,2.1,0));
+    function skyCanvas() {
+      var c = cnv(1400, 700);
+      var x = c.getContext("2d");
+      var sky = x.createLinearGradient(0, 0, 0, 700);
+      sky.addColorStop(0, "#495e81");
+      sky.addColorStop(0.28, "#8ea2c0");
+      sky.addColorStop(0.52, "#d7c0b7");
+      sky.addColorStop(0.72, "#d9dce2");
+      sky.addColorStop(1, "#b6beca");
+      x.fillStyle = sky;
+      x.fillRect(0, 0, 1400, 700);
 
-    var rotY=0.5,spinT=0.5,dragging=false,px=0,interacted=false;g.rotation.y=rotY;
-    function down(e){dragging=true;interacted=true;mount.style.cursor='grabbing';px=e.clientX;if(e.cancelable&&e.pointerType!=='touch')e.preventDefault();}
-    function move(e){if(!dragging)return;spinT+=(e.clientX-px)*0.01;px=e.clientX;}
-    function up(){dragging=false;mount.style.cursor='grab';}
-    mount.addEventListener('pointerdown',down);window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);mount.style.cursor='grab';
-    (function loop(){requestAnimationFrame(loop);if(!dragging&&!interacted&&!reduce)spinT+=0.0022;rotY+=(spinT-rotY)*0.08;g.rotation.y=rotY;renderer.render(scene,cam);})();
-    window.addEventListener('resize',function(){var w=mount.clientWidth,h=mount.clientHeight;if(!w||!h)return;cam.aspect=w/h;cam.updateProjectionMatrix();renderer.setSize(w,h);});
+      var sun = x.createRadialGradient(1050, 208, 4, 1050, 208, 360);
+      sun.addColorStop(0, "rgba(255,223,172,.96)");
+      sun.addColorStop(0.22, "rgba(244,166,118,.42)");
+      sun.addColorStop(1, "rgba(244,166,118,0)");
+      x.fillStyle = sun;
+      x.fillRect(0, 0, 1400, 480);
+
+      for (var i = 0; i < 52; i++) {
+        var cx = rnd() * 1400;
+        var cy = 70 + rnd() * 220;
+        var cloud = x.createRadialGradient(cx, cy, 10, cx, cy, 150 + rnd() * 120);
+        cloud.addColorStop(0, "rgba(255,245,236,.22)");
+        cloud.addColorStop(1, "rgba(255,245,236,0)");
+        x.fillStyle = cloud;
+        x.fillRect(cx - 240, cy - 100, 480, 240);
+      }
+
+      function ridge(baseY, minH, maxH, color, snowColor) {
+        var pts = [];
+        x.beginPath();
+        x.moveTo(0, baseY);
+        for (var r = 0; r <= 16; r++) {
+          var px = (r / 16) * 1400;
+          var py = baseY - (minH + Math.abs(Math.sin(r * 1.63 + baseY * 0.02)) * (maxH - minH));
+          pts.push([px, py]);
+          x.lineTo(px, py);
+        }
+        x.lineTo(1400, baseY);
+        x.closePath();
+        x.fillStyle = color;
+        x.fill();
+
+        x.fillStyle = snowColor;
+        pts.forEach(function (p) {
+          if (baseY - p[1] > maxH * 0.58) {
+            x.beginPath();
+            x.moveTo(p[0], p[1]);
+            x.lineTo(p[0] - 24, p[1] + 44);
+            x.lineTo(p[0] + 25, p[1] + 44);
+            x.closePath();
+            x.fill();
+          }
+        });
+      }
+
+      ridge(438, 96, 220, "rgba(65,78,104,.84)", "rgba(233,239,248,.94)");
+      ridge(454, 54, 152, "rgba(35,53,78,.78)", "rgba(221,231,242,.86)");
+      return c;
+    }
+
+    var stoneMap = texture(stoneCanvas(), 2.8, 1.8);
+    var stoneMat = new T.MeshStandardMaterial({
+      map: stoneMap,
+      color: 0x8e887c,
+      roughness: 0.88,
+      metalness: 0.02,
+    });
+    var darkStoneMat = new T.MeshStandardMaterial({
+      map: stoneMap.clone(),
+      color: 0x5d5a52,
+      roughness: 0.94,
+      metalness: 0.01,
+    });
+    darkStoneMat.map.repeat.set(2.4, 2.2);
+
+    var woodMat = new T.MeshStandardMaterial({
+      map: texture(woodCanvas(), 3.4, 1),
+      color: 0xb97639,
+      roughness: 0.55,
+      metalness: 0,
+    });
+    var roofMat = new T.MeshStandardMaterial({
+      color: 0x121417,
+      roughness: 0.38,
+      metalness: 0.38,
+      envMapIntensity: 1.05,
+    });
+    var frameMat = new T.MeshStandardMaterial({
+      color: 0x111418,
+      roughness: 0.32,
+      metalness: 0.58,
+      envMapIntensity: 1.1,
+    });
+    var snowMat = new T.MeshStandardMaterial({ color: 0xf2f6fb, roughness: 0.83 });
+    var glassMat = new T.MeshPhysicalMaterial({
+      color: 0x9eb1c3,
+      roughness: 0.02,
+      metalness: 0.08,
+      clearcoat: 1,
+      clearcoatRoughness: 0.02,
+      transparent: true,
+      opacity: 0.38,
+      reflectivity: 0.75,
+      envMapIntensity: 1.9,
+    });
+    var railMat = new T.MeshPhysicalMaterial({
+      color: 0xc6d9e7,
+      roughness: 0.02,
+      metalness: 0,
+      clearcoat: 1,
+      transparent: true,
+      opacity: 0.24,
+      envMapIntensity: 1.35,
+    });
+    var warmMat = new T.MeshStandardMaterial({
+      color: 0xffd19a,
+      emissive: 0xffb668,
+      emissiveIntensity: 1.45,
+      roughness: 0.72,
+    });
+    var warmSoftMat = new T.MeshBasicMaterial({ color: 0xffd09a, transparent: true, opacity: 0.72 });
+    var tileMat = new T.MeshStandardMaterial({
+      map: texture(tileCanvas(), 3.5, 2.2),
+      color: 0xb3afa7,
+      roughness: 0.84,
+    });
+    var pineMat = new T.MeshStandardMaterial({ color: 0x1e332a, roughness: 0.93 });
+    var trunkMat = new T.MeshStandardMaterial({ color: 0x5a402c, roughness: 0.9 });
+
+    function mesh(geometry, material, x, y, z, rx, ry, rz, parent) {
+      var m = new T.Mesh(geometry, material);
+      m.position.set(x || 0, y || 0, z || 0);
+      m.rotation.set(rx || 0, ry || 0, rz || 0);
+      m.castShadow = true;
+      m.receiveShadow = true;
+      (parent || residence).add(m);
+      return m;
+    }
+
+    function box(w, h, d, material, x, y, z, parent) {
+      return mesh(new T.BoxGeometry(w, h, d), material, x, y, z, 0, 0, 0, parent);
+    }
+
+    function cyl(rt, rb, h, segments, material, x, y, z, parent) {
+      return mesh(new T.CylinderGeometry(rt, rb, h, segments || 18), material, x, y, z, 0, 0, 0, parent);
+    }
+
+    function addFrontGlass(x, y, z, w, h, cols, rows) {
+      box(w, h, 0.035, warmMat, x, y, z - 0.05);
+      var glow = mesh(new T.PlaneGeometry(w * 0.95, h * 0.92), warmSoftMat, x, y, z - 0.02, 0, 0, 0);
+      glow.castShadow = false;
+      glow.receiveShadow = false;
+      box(w, h, 0.045, glassMat, x, y, z);
+      box(w + 0.12, 0.055, 0.07, frameMat, x, y + h / 2, z + 0.04);
+      box(w + 0.12, 0.055, 0.07, frameMat, x, y - h / 2, z + 0.04);
+      box(0.055, h + 0.1, 0.07, frameMat, x - w / 2, y, z + 0.04);
+      box(0.055, h + 0.1, 0.07, frameMat, x + w / 2, y, z + 0.04);
+      for (var i = 1; i < cols; i++) {
+        box(0.035, h + 0.05, 0.075, frameMat, x - w / 2 + (w * i) / cols, y, z + 0.055);
+      }
+      for (var j = 1; j < rows; j++) {
+        box(w + 0.02, 0.032, 0.075, frameMat, x, y - h / 2 + (h * j) / rows, z + 0.055);
+      }
+    }
+
+    function addSideGlass(x, y, z, d, h, cols, rows) {
+      box(0.035, h, d, warmMat, x + 0.045, y, z);
+      box(0.045, h, d, glassMat, x, y, z);
+      box(0.07, 0.055, d + 0.12, frameMat, x - 0.04, y + h / 2, z);
+      box(0.07, 0.055, d + 0.12, frameMat, x - 0.04, y - h / 2, z);
+      box(0.07, h + 0.1, 0.055, frameMat, x - 0.04, y, z - d / 2);
+      box(0.07, h + 0.1, 0.055, frameMat, x - 0.04, y, z + d / 2);
+      for (var i = 1; i < cols; i++) {
+        box(0.075, h + 0.05, 0.035, frameMat, x - 0.055, y, z - d / 2 + (d * i) / cols);
+      }
+      for (var j = 1; j < rows; j++) {
+        box(0.075, 0.032, d + 0.02, frameMat, x - 0.055, y - h / 2 + (h * j) / rows, z);
+      }
+    }
+
+    function addRail(x, y, z, w, horizontal) {
+      if (horizontal) {
+        box(w, 0.44, 0.035, railMat, x, y, z);
+        box(w + 0.05, 0.045, 0.05, frameMat, x, y + 0.24, z + 0.02);
+        for (var i = 0; i <= 6; i++) box(0.032, 0.5, 0.045, frameMat, x - w / 2 + (w * i) / 6, y, z + 0.03);
+      } else {
+        box(0.035, 0.44, w, railMat, x, y, z);
+        box(0.05, 0.045, w + 0.05, frameMat, x + 0.02, y + 0.24, z);
+        for (var j = 0; j <= 4; j++) box(0.045, 0.5, 0.032, frameMat, x + 0.03, y, z - w / 2 + (w * j) / 4);
+      }
+    }
+
+    function addDownlights(y, z, startX, count, gap) {
+      for (var i = 0; i < count; i++) {
+        var x = startX + i * gap;
+        var bulb = mesh(new T.SphereGeometry(0.045, 12, 8), new T.MeshBasicMaterial({ color: 0xffd18d }), x, y, z, 0, 0, 0);
+        bulb.castShadow = false;
+        var light = new T.PointLight(0xffbd72, 0.35, 2.8, 2);
+        light.position.set(x, y - 0.04, z + 0.06);
+        residence.add(light);
+      }
+    }
+
+    // Snow platform and patio
+    box(12.2, 0.16, 8.2, snowMat, 0, 0.02, 0.65);
+    box(9.4, 0.08, 2.8, tileMat, 0.35, 0.13, 3.15);
+    box(4.2, 0.06, 1.8, tileMat, -2.3, 1.55, 2.3);
+    box(3.4, 0.06, 1.5, tileMat, -1.2, 2.92, 2.05);
+
+    // Lower residence volume
+    box(8.5, 1.25, 3.25, stoneMat, 0, 0.78, 0.22);
+    box(8.95, 0.28, 3.75, roofMat, 0, 1.48, 0.2);
+    box(8.75, 0.075, 3.55, woodMat, 0, 1.31, 0.2);
+    addFrontGlass(-2.85, 0.82, 1.9, 2.0, 0.95, 3, 2);
+    addFrontGlass(-0.45, 0.82, 1.92, 2.15, 0.95, 3, 2);
+    addFrontGlass(2.1, 0.82, 1.91, 2.2, 0.95, 3, 2);
+    addSideGlass(4.28, 0.82, 0.3, 2.35, 0.9, 3, 2);
+    addDownlights(1.27, 1.92, -3.65, 9, 0.9);
+
+    // Main second level
+    box(7.65, 1.28, 3.05, stoneMat, -0.25, 2.12, 0.04);
+    box(8.35, 0.3, 3.62, roofMat, -0.22, 2.85, 0.02);
+    box(8.1, 0.075, 3.42, woodMat, -0.22, 2.67, 0.02);
+    addFrontGlass(-2.55, 2.14, 1.72, 2.2, 1.0, 3, 2);
+    addFrontGlass(0.0, 2.14, 1.73, 2.35, 1.0, 4, 2);
+    addFrontGlass(2.45, 2.14, 1.72, 1.75, 1.0, 3, 2);
+    addSideGlass(3.63, 2.14, 0.18, 2.15, 0.98, 3, 2);
+    addRail(-0.2, 1.78, 2.35, 7.6, true);
+    addRail(3.77, 1.78, 1.02, 2.25, false);
+    addDownlights(2.66, 1.74, -3.75, 8, 0.95);
+
+    // Upper suite and deep black roofline
+    box(4.9, 1.05, 2.45, darkStoneMat, -1.35, 3.35, -0.12);
+    box(5.65, 0.3, 3.02, roofMat, -1.35, 4.02, -0.12);
+    box(5.42, 0.075, 2.86, woodMat, -1.35, 3.84, -0.12);
+    addFrontGlass(-2.2, 3.36, 1.23, 1.75, 0.82, 3, 2);
+    addFrontGlass(-0.18, 3.36, 1.24, 1.6, 0.82, 3, 2);
+    addSideGlass(1.1, 3.36, -0.04, 1.55, 0.82, 2, 2);
+    addRail(-1.25, 3.02, 1.52, 3.95, true);
+    addDownlights(3.82, 1.25, -3.65, 6, 0.82);
+
+    // Signature stone chimney, matching the reference image.
+    box(0.88, 3.35, 0.88, darkStoneMat, 3.05, 2.95, -0.92);
+    box(1.08, 0.22, 1.08, roofMat, 3.05, 4.74, -0.92);
+    box(0.72, 0.38, 0.72, frameMat, 3.05, 4.98, -0.92);
+    box(0.96, 0.12, 0.96, roofMat, 3.05, 5.23, -0.92);
+
+    // Vertical slat feature from the reference balcony.
+    for (var s = 0; s < 16; s++) {
+      box(0.035, 1.12, 0.035, woodMat, -3.62 + s * 0.07, 2.08, 1.82);
+    }
+
+    // Patio furniture and fire lounge silhouettes.
+    var cushionMat = new T.MeshStandardMaterial({ color: 0x3b3530, roughness: 0.82 });
+    box(1.25, 0.22, 0.38, cushionMat, -1.85, 0.31, 3.55);
+    box(0.28, 0.48, 0.38, cushionMat, -2.35, 0.55, 3.55);
+    box(1.1, 0.22, 0.38, cushionMat, 1.2, 0.31, 3.68);
+    box(0.24, 0.42, 0.38, cushionMat, 1.72, 0.52, 3.68);
+    cyl(0.46, 0.52, 0.16, 32, frameMat, -0.2, 0.26, 3.92);
+    var flame = mesh(new T.ConeGeometry(0.16, 0.38, 16), new T.MeshBasicMaterial({ color: 0xff8a3d }), -0.2, 0.56, 3.92, 0, 0, 0);
+    flame.castShadow = false;
+    var fireLight = new T.PointLight(0xff8a3d, 0.65, 4, 2);
+    fireLight.position.set(-0.2, 0.72, 3.92);
+    residence.add(fireLight);
+
+    // Path lights in front of the residence.
+    for (var l = 0; l < 8; l++) {
+      var lx = -4.0 + l * 1.0;
+      var lz = 4.35 + Math.sin(l) * 0.08;
+      cyl(0.018, 0.018, 0.48, 8, frameMat, lx, 0.38, lz);
+      mesh(new T.SphereGeometry(0.07, 12, 8), new T.MeshBasicMaterial({ color: 0xffd19a }), lx, 0.67, lz, 0, 0, 0);
+      var pl = new T.PointLight(0xffbf78, 0.18, 1.8, 2);
+      pl.position.set(lx, 0.68, lz);
+      residence.add(pl);
+    }
+
+    function pine(x, z, h, lean) {
+      var tree = new T.Group();
+      tree.position.set(x, 0, z);
+      tree.rotation.z = lean || 0;
+      residence.add(tree);
+      var trunk = new T.Mesh(new T.CylinderGeometry(0.055 * h, 0.075 * h, 0.45 * h, 7), trunkMat);
+      trunk.position.y = 0.22 * h;
+      trunk.castShadow = true;
+      trunk.receiveShadow = true;
+      tree.add(trunk);
+      for (var i = 0; i < 7; i++) {
+        var t = i / 7;
+        var radius = h * (0.35 - t * 0.22);
+        var coneH = h * (0.42 - t * 0.08);
+        var cy = h * (0.34 + i * 0.11);
+        var cone = new T.Mesh(new T.ConeGeometry(radius, coneH, 9), pineMat);
+        cone.position.y = cy;
+        cone.castShadow = true;
+        cone.receiveShadow = true;
+        tree.add(cone);
+        if (i % 2 === 0) {
+          var snow = new T.Mesh(new T.ConeGeometry(radius * 0.72, coneH * 0.28, 9), snowMat);
+          snow.position.y = cy + coneH * 0.16;
+          snow.castShadow = false;
+          tree.add(snow);
+        }
+      }
+    }
+
+    pine(-5.05, 1.42, 2.45, -0.04);
+    pine(-4.8, -1.85, 2.8, 0.03);
+    pine(-4.7, 3.55, 1.65, -0.02);
+    pine(4.85, 1.55, 2.0, 0.02);
+    pine(4.7, -2.4, 2.35, -0.02);
+    pine(5.6, 3.35, 1.65, 0.03);
+    pine(2.35, -3.6, 1.65, 0);
+    pine(-2.2, -3.85, 1.9, -0.02);
+
+    // Background world: sky, mountains, soft shadows. These stay stable while the model rotates.
+    var skyTex = texture(skyCanvas(), 1, 1, 4);
+    if (T.EquirectangularReflectionMapping) skyTex.mapping = T.EquirectangularReflectionMapping;
+    scene.background = skyTex;
+    scene.fog = new T.Fog(new T.Color(0xa7adba), 21, 62);
+    try {
+      var pmrem = new T.PMREMGenerator(renderer);
+      pmrem.compileEquirectangularShader();
+      scene.environment = pmrem.fromEquirectangular(skyTex).texture;
+    } catch (error) {
+      scene.environment = skyTex;
+    }
+
+    var ground = new T.Mesh(new T.PlaneGeometry(240, 240), new T.MeshStandardMaterial({ color: 0xeaf0f6, roughness: 0.92 }));
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -0.065;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    var shadowCanvas = cnv(256, 256);
+    var shadowCtx = shadowCanvas.getContext("2d");
+    var shadowGrad = shadowCtx.createRadialGradient(128, 128, 12, 128, 128, 126);
+    shadowGrad.addColorStop(0, "rgba(10,10,12,.45)");
+    shadowGrad.addColorStop(1, "rgba(10,10,12,0)");
+    shadowCtx.fillStyle = shadowGrad;
+    shadowCtx.fillRect(0, 0, 256, 256);
+    var softShadow = new T.Mesh(
+      new T.PlaneGeometry(13.6, 9.4),
+      new T.MeshBasicMaterial({ map: new T.CanvasTexture(shadowCanvas), transparent: true, depthWrite: false })
+    );
+    softShadow.rotation.x = -Math.PI / 2;
+    softShadow.position.set(0.55, 0.01, 0.82);
+    scene.add(softShadow);
+
+    scene.add(new T.HemisphereLight(0xb9c8e8, 0x2a221b, 0.42));
+    var sun = new T.DirectionalLight(0xffc384, 2.25);
+    sun.position.set(7.5, 7.4, 7.8);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.near = 0.5;
+    sun.shadow.camera.far = 62;
+    sun.shadow.camera.left = -11;
+    sun.shadow.camera.right = 11;
+    sun.shadow.camera.top = 11;
+    sun.shadow.camera.bottom = -11;
+    sun.shadow.bias = -0.00035;
+    scene.add(sun);
+
+    var fill = new T.DirectionalLight(0x8ea7d6, 0.52);
+    fill.position.set(-6, 3.8, -5);
+    scene.add(fill);
+
+    var interiorBoost = new T.PointLight(0xffbf78, 1.1, 10, 2);
+    interiorBoost.position.set(0.4, 2.1, 2.15);
+    residence.add(interiorBoost);
+
+    var camera = new T.PerspectiveCamera(30, width / height, 0.1, 250);
+    camera.position.set(6.7, 3.15, 8.55);
+    camera.lookAt(new T.Vector3(0.42, 2.1, 0.65));
+
+    var targetRotation = -0.42;
+    var rotation = targetRotation;
+    var dragging = false;
+    var pointerX = 0;
+    var interacted = false;
+    residence.rotation.y = rotation;
+
+    function pointerDown(event) {
+      dragging = true;
+      interacted = true;
+      pointerX = event.clientX;
+      mount.style.cursor = "grabbing";
+      if (event.cancelable && event.pointerType !== "touch") event.preventDefault();
+    }
+
+    function pointerMove(event) {
+      if (!dragging) return;
+      targetRotation += (event.clientX - pointerX) * 0.009;
+      pointerX = event.clientX;
+    }
+
+    function pointerUp() {
+      dragging = false;
+      mount.style.cursor = "grab";
+    }
+
+    mount.addEventListener("pointerdown", pointerDown);
+    window.addEventListener("pointermove", pointerMove);
+    window.addEventListener("pointerup", pointerUp);
+    mount.style.cursor = "grab";
+
+    function loop() {
+      requestAnimationFrame(loop);
+      if (!dragging && !interacted && !reduce) targetRotation += 0.0018;
+      rotation += (targetRotation - rotation) * 0.075;
+      residence.rotation.y = rotation;
+      renderer.render(scene, camera);
+    }
+    loop();
+
+    window.addEventListener("resize", function () {
+      var w = mount.clientWidth || width;
+      var h = mount.clientHeight || height;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
   }
 })();
