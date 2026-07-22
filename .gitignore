@@ -9,7 +9,13 @@ Thumbs.db
 *.tmp
 *.bak
 
+# Python
+__pycache__/
+*.py[cod]
+.python-version
+.venv/
+venv/
+
 # Local dependency/build folders, if tooling is added later
-node_modules/
 dist/
 build/

@@ -4,7 +4,7 @@ Static marketing site for ConstructX luxury mountain residences.
 
 Note: the GitHub repository is named `ConctructX`, while the website brand shown in the page is `ConstructX`.
 
-The original single-file HTML has been organized into separate HTML, CSS, JavaScript, and image assets. See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for the full layout.
+The original single-file HTML has been organized into separate HTML, CSS, JavaScript, and image assets, and the site now runs through a Python entrypoint. See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for the full layout.
 
 ## Project structure
 
@@ -27,7 +27,7 @@ The original single-file HTML has been organized into separate HTML, CSS, JavaSc
 Open `index.html` directly in a browser, or run a local static server:
 
 ```powershell
-npm start
+python app.py
 ```
 
 Then visit `http://localhost:8000`.

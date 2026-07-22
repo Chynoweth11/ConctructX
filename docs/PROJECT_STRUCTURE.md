@@ -4,8 +4,8 @@ The original `constructx.html` file has been separated into a normal static webs
 
 ```text
 .
+|-- app.py
 |-- index.html
-|-- package.json
 |-- README.md
 |-- docs
 |   `-- PROJECT_STRUCTURE.md
@@ -32,12 +32,12 @@ The original `constructx.html` file has been separated into a normal static webs
 - `assets/js/app.js` contains site interactions like navigation, reveal animations, estimator controls, map/team interactions, and the contact CTA.
 - `assets/js/hero-3d.js` contains the interactive Three.js hero scene.
 - `assets/images/` contains the images that were extracted from the original embedded base64 HTML.
-- `package.json` provides a simple local start command.
+- `app.py` is the Python server entrypoint for running the app/site locally.
 
 ## Run locally
 
 ```powershell
-npm start
+python app.py
 ```
 
 Then open `http://localhost:8000`.
