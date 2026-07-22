@@ -73,18 +73,22 @@
     var mapCanvas = document.getElementById('mapCanvas'), mapName = document.getElementById('mapName'), mapCoord = document.getElementById('mapCoord'), mapStatus = document.getElementById('mapStatus');
     function selectSite(s) { mapName.style.opacity = '0'; setTimeout(function () { mapName.textContent = s.name; mapCoord.textContent = s.coord; mapStatus.innerHTML = '<span class="d" style="background:' + (s.st === 'active' ? 'var(--bronze)' : 'var(--ink)') + '"></span> ' + s.lbl; mapName.style.opacity = '1'; }, 150); }
     sites.forEach(function (s) { var m = document.createElement('div'); m.className = 'marker ' + (s.st === 'active' ? 'active' : 'done'); m.style.left = s.x + '%'; m.style.top = s.y + '%'; m.innerHTML = '<div class="pin"></div>'; m.setAttribute('tabindex', '0'); m.setAttribute('role', 'button'); m.setAttribute('aria-label', s.name); m.addEventListener('click', function () { selectSite(s); }); m.addEventListener('mouseenter', function () { selectSite(s); }); m.addEventListener('focus', function () { selectSite(s); }); mapCanvas.appendChild(m); });
-    var rates = { res: [350, 470], est: [420, 560], ren: [320, 520] }, typeName = { res: 'Mountain home', est: 'Estate / lodge', ren: 'Renovation' };
-    var state = { type: 'res', sqft: 6000, fin: 1.8, finName: 'Bespoke', site: 1, siteName: 'Standard' };
-    function money(n) { return n >= 1e6 ? '$' + (n / 1e6).toFixed(2) + 'M' : '$' + Math.round(n / 1000) + 'K'; }
+    var typeName = { lux: 'Luxury residential', lake: 'Mountain / lake', com: 'Commercial', int: 'Interiors / remodels' };
+    var fitCopy = {
+        lux: { head: 'Private consultation', body: 'Custom homes and estates start with a confidential scope review, site conversation, and design-intent alignment.', next: 'Discovery call' },
+        lake: { head: 'Site-led planning', body: 'Mountain and lake properties need early conversations around access, weather, utilities, approvals, and material logistics.', next: 'Site / access review' },
+        com: { head: 'Commercial discovery', body: 'Retail, hospitality, office, and mixed-use work starts with operations, schedule, phasing, and brand requirements.', next: 'Use-case review' },
+        int: { head: 'Interior / remodel review', body: 'Interior work and remodels begin with existing conditions, finish expectations, phasing, and occupied-space planning.', next: 'Walkthrough consult' }
+    };
+    var state = { type: 'lux', sqft: 6000, finName: 'Full-service', siteName: 'Residential / private' };
     function calc() {
-        var r = rates[state.type], loR = r[0] * state.fin * state.site, hiR = r[1] * state.fin * state.site, lo = loR * state.sqft, hi = hiR * state.sqft;
-        document.getElementById('eoRange').textContent = money(lo) + ' – ' + money(hi);
-        document.getElementById('eoPer').textContent = '≈ $' + Math.round(loR) + ' – $' + Math.round(hiR) + ' / sq ft · ' + state.sqft.toLocaleString() + ' sq ft';
-        document.getElementById('eoBase').textContent = '$' + r[0] + ' – $' + r[1] + ' / sq ft';
-        document.getElementById('eoFin').textContent = state.finName + ' ×' + state.fin.toFixed(2);
-        document.getElementById('eoSite').textContent = state.siteName + ' ×' + state.site.toFixed(2);
-        var months = Math.round(10 + state.sqft / 720 * state.site);
-        document.getElementById('eoDur').textContent = (months - 1) + ' – ' + (months + 2) + ' months';
+        var fit = fitCopy[state.type] || fitCopy.lux;
+        document.getElementById('eoRange').textContent = fit.head;
+        document.getElementById('eoPer').textContent = fit.body;
+        document.getElementById('eoBase').textContent = typeName[state.type];
+        document.getElementById('eoFin').textContent = state.sqft.toLocaleString() + ' sq ft';
+        document.getElementById('eoSite').textContent = state.finName + ' · ' + state.siteName;
+        document.getElementById('eoDur').textContent = fit.next;
         document.getElementById('lblType').textContent = typeName[state.type];
         document.getElementById('lblSqft').textContent = state.sqft.toLocaleString() + ' sq ft';
         document.getElementById('lblFinish').textContent = state.finName;
@@ -92,8 +96,8 @@
     }
     function segWire(id, fn) { var seg = document.getElementById(id); seg.querySelectorAll('button').forEach(function (bn) { bn.addEventListener('click', function () { seg.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); }); bn.classList.add('on'); fn(bn); calc(); }); }); }
     segWire('segType', function (b) { state.type = b.getAttribute('data-type'); });
-    segWire('segFinish', function (b) { state.fin = parseFloat(b.getAttribute('data-fin')); state.finName = b.textContent; });
-    segWire('segSite', function (b) { state.site = parseFloat(b.getAttribute('data-site')); state.siteName = b.textContent; });
+    segWire('segFinish', function (b) { state.finName = b.getAttribute('data-service') || b.textContent; });
+    segWire('segSite', function (b) { state.siteName = b.getAttribute('data-setting') || b.textContent; });
     document.getElementById('sqft').addEventListener('input', function () { state.sqft = parseInt(this.value, 10); calc(); });
     calc();
     var coBtn = document.getElementById('coBtn');
