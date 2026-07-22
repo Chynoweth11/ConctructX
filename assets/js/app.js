@@ -62,13 +62,13 @@
     if (proc)
         pio.observe(proc);
     var sites = [
-        { x: 34, y: 22, name: 'Elk Range Lodge', coord: "N 39°38'02\" · W 106°22'40\"", st: 'active', lbl: 'Active · Phase 05' },
-        { x: 52, y: 34, name: 'Aspen Ridge', coord: "N 39°11'26\" · W 106°49'11\"", st: 'done', lbl: 'Delivered · 2024' },
-        { x: 68, y: 52, name: 'Cascade Lodge', coord: "N 43°28'55\" · W 110°45'40\"", st: 'done', lbl: 'Delivered · 2025' },
-        { x: 44, y: 64, name: 'The Aster Residence', coord: "N 37°56'14\" · W 107°48'42\"", st: 'done', lbl: 'Delivered · 2025' },
-        { x: 26, y: 48, name: 'Powderhorn Estate', coord: "N 39°35'10\" · W 106°38'02\"", st: 'active', lbl: 'Active · Phase 03' },
-        { x: 60, y: 20, name: 'Timberline Villa', coord: "N 40°30'22\" · W 106°49'01\"", st: 'active', lbl: 'Active · Phase 04' },
-        { x: 78, y: 70, name: 'Blue River Retreat', coord: "N 39°28'11\" · W 106°02'02\"", st: 'done', lbl: 'Delivered · 2023' }
+        { x: 34, y: 22, name: 'Project Timberline', coord: 'Colorado mountain region · exact site private', st: 'active', lbl: 'Active · Phase 05' },
+        { x: 52, y: 34, name: 'Project North Star', coord: 'Colorado high country · exact site private', st: 'done', lbl: 'Delivered · 2024' },
+        { x: 68, y: 52, name: 'Project Cascade', coord: 'Mountain West region · exact site private', st: 'done', lbl: 'Delivered · 2025' },
+        { x: 44, y: 64, name: 'Project Aster', coord: 'Southwest Colorado · exact site private', st: 'done', lbl: 'Delivered · 2025' },
+        { x: 26, y: 48, name: 'Project Stonepine', coord: 'Colorado resort corridor · exact site private', st: 'active', lbl: 'Active · Phase 03' },
+        { x: 60, y: 20, name: 'Project Summit', coord: 'Northern Colorado · exact site private', st: 'active', lbl: 'Active · Phase 04' },
+        { x: 78, y: 70, name: 'Project Blue River', coord: 'Private lake / river region · exact site private', st: 'done', lbl: 'Delivered · 2023' }
     ];
     var mapCanvas = document.getElementById('mapCanvas'), mapName = document.getElementById('mapName'), mapCoord = document.getElementById('mapCoord'), mapStatus = document.getElementById('mapStatus');
     function selectSite(s) { mapName.style.opacity = '0'; setTimeout(function () { mapName.textContent = s.name; mapCoord.textContent = s.coord; mapStatus.innerHTML = '<span class="d" style="background:' + (s.st === 'active' ? 'var(--bronze)' : 'var(--ink)') + '"></span> ' + s.lbl; mapName.style.opacity = '1'; }, 150); }
@@ -102,7 +102,7 @@
     calc();
     var coBtn = document.getElementById('coBtn');
     if (coBtn)
-        coBtn.addEventListener('click', function () { this.textContent = 'Approved ✓'; this.style.background = 'var(--bronze-d)'; });
+        coBtn.addEventListener('click', function () { this.textContent = 'Decision logged ✓'; this.style.background = 'var(--bronze-d)'; });
     var ctaSend = document.getElementById('ctaSend');
     if (ctaSend)
         ctaSend.addEventListener('click', function () { var n = document.getElementById('cName').value.trim(); this.innerHTML = (n ? 'Thank you, ' + n.split(' ')[0] + " — we'll reach out about your project ✓" : 'Project conversation started ✓'); });
