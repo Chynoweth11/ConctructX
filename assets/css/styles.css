@@ -64,11 +64,10 @@ header.solid .menu-btn span,header.solid .menu-btn span::before,header.solid .me
 .hero{position:relative;height:100vh;min-height:640px;overflow:hidden;display:flex;align-items:flex-end}
 .hero-media{position:absolute;inset:0;z-index:0;overflow:hidden;background:#20242e;perspective:1600px;cursor:grab}
 .hero-media.dragging{cursor:grabbing}
-.hero-media img{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;will-change:transform;transform:scale(1.035);backface-visibility:hidden;filter:saturate(1.04) contrast(1.03)}
-#hero3d{position:absolute;inset:0;z-index:1;opacity:.64;mix-blend-mode:normal;filter:saturate(1.08) contrast(1.06);transition:opacity .45s var(--ease)}
-.hero-media:hover #hero3d,.hero-media.dragging #hero3d{opacity:.88}
+.hero-media img{position:absolute;top:-13%;left:-8%;z-index:0;width:116%;height:128%;object-fit:cover;will-change:transform;transform:scale(1.06);backface-visibility:hidden}
+#hero3d{position:absolute;inset:0;z-index:1;opacity:1;mix-blend-mode:normal;filter:saturate(1.05) contrast(1.04)}
 #hero3d canvas{width:100%!important;height:100%!important;display:block}
-.hero-media::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at 58% 42%,rgba(255,223,178,.08),rgba(16,16,20,0) 34%),linear-gradient(180deg,rgba(12,13,16,.1) 0%,rgba(16,16,20,0) 25%,rgba(16,16,20,.16) 52%,rgba(16,16,20,.74) 100%),linear-gradient(90deg,rgba(10,10,12,.36),rgba(10,10,12,.03) 52%,rgba(10,10,12,.2))}
+.hero-media::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at 62% 32%,rgba(255,214,166,.16),rgba(16,16,20,0) 34%),linear-gradient(180deg,rgba(13,15,19,.08) 0%,rgba(13,15,19,0) 27%,rgba(13,15,19,.22) 58%,rgba(13,15,19,.76) 100%),linear-gradient(90deg,rgba(8,9,12,.38),rgba(8,9,12,.04) 52%,rgba(8,9,12,.22))}
 .hero-inner{position:relative;z-index:2;width:100%;padding-bottom:72px}
 .hero-eyebrow{color:rgba(255,255,255,.88);margin-bottom:26px;opacity:0;transform:translateY(20px);animation:up .9s var(--ease) .4s forwards}
 .hero h1{color:#fff;font-size:clamp(42px,6.6vw,104px);font-weight:200;line-height:.98;max-width:16ch;margin-bottom:30px;text-shadow:0 2px 30px rgba(0,0,0,.25)}

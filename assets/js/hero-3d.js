@@ -42,13 +42,11 @@
         var height = mount.clientHeight || 760;
         var renderer = new T.WebGLRenderer({
             antialias: true,
-            alpha: true,
-            premultipliedAlpha: false,
+            alpha: false,
             powerPreference: "high-performance",
         });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setSize(width, height);
-        renderer.setClearColor(0x000000, 0);
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = T.PCFSoftShadowMap;
         renderer.physicallyCorrectLights = true;
@@ -62,8 +60,8 @@
         mount.appendChild(renderer.domElement);
         var scene = new T.Scene();
         var residence = new T.Group();
-        residence.position.set(0.46, -0.09, 0.18);
-        residence.scale.set(0.78, 0.78, 0.78);
+        residence.position.set(0.18, -0.04, 0.2);
+        residence.scale.set(0.9, 0.9, 0.9);
         scene.add(residence);
         var seed = 18;
         function rnd() {
@@ -398,6 +396,20 @@
             color: 0xb3afa7,
             roughness: 0.84,
         });
+        var concreteMat = new T.MeshStandardMaterial({ color: 0xa7a29a, roughness: 0.86, metalness: 0.02 });
+        var garageDoorMat = new T.MeshStandardMaterial({ color: 0x15191e, roughness: 0.34, metalness: 0.35, envMapIntensity: 1.15 });
+        var waterMat = new T.MeshPhysicalMaterial({
+            color: 0x73c6d8,
+            roughness: 0.035,
+            metalness: 0,
+            clearcoat: 1,
+            transparent: true,
+            opacity: 0.62,
+            emissive: 0x1e7790,
+            emissiveIntensity: 0.22,
+        });
+        var shrubMat = new T.MeshStandardMaterial({ color: 0x24372e, roughness: 0.95 });
+        var rockMat = new T.MeshStandardMaterial({ color: 0x6e6961, roughness: 0.9 });
         var pineMat = new T.MeshStandardMaterial({ color: 0x1e332a, roughness: 0.93 });
         var trunkMat = new T.MeshStandardMaterial({ color: 0x5a402c, roughness: 0.9 });
         function mesh(geometry, material, x, y, z, rx, ry, rz, parent) {
@@ -480,6 +492,22 @@
         box(9.4, 0.08, 2.8, tileMat, 0.35, 0.13, 3.15);
         box(4.2, 0.06, 1.8, tileMat, -2.3, 1.55, 2.3);
         box(3.4, 0.06, 1.5, tileMat, -1.2, 2.92, 2.05);
+        // Reference-house foreground: garage wing, retaining walls, spa terrace, and snow-landscape edges.
+        box(1.95, 1.05, 1.45, darkStoneMat, -4.65, 0.66, 1.16);
+        box(2.32, 0.22, 1.82, roofMat, -4.65, 1.27, 1.16);
+        box(1.5, 0.68, 0.055, garageDoorMat, -4.65, 0.61, 1.92);
+        for (var gd = 0; gd < 3; gd++)
+            box(0.34, 0.12, 0.065, glassMat, -5.05 + gd * 0.36, 0.76, 1.96);
+        box(6.4, 0.46, 0.28, concreteMat, -1.9, 0.3, 4.24);
+        box(2.35, 0.4, 0.26, concreteMat, -4.08, 0.28, 3.35);
+        box(0.34, 0.15, 1.55, concreteMat, -3.72, 0.18, 3.73);
+        box(0.34, 0.15, 1.24, concreteMat, -3.23, 0.29, 3.68);
+        box(0.34, 0.15, 0.95, concreteMat, -2.74, 0.4, 3.64);
+        box(1.7, 0.34, 1.05, concreteMat, 3.72, 0.36, 3.56);
+        box(1.34, 0.035, 0.72, waterMat, 3.72, 0.56, 3.56);
+        var spaLight = new T.PointLight(0x55c7e8, 0.38, 2.2, 2);
+        spaLight.position.set(3.72, 0.7, 3.56);
+        residence.add(spaLight);
         // Lower residence volume
         box(8.5, 1.25, 3.25, stoneMat, 0, 0.78, 0.22);
         box(8.95, 0.28, 3.75, roofMat, 0, 1.48, 0.2);
@@ -572,10 +600,24 @@
         pine(5.6, 3.45, 0.94, 0.02);
         pine(4.95, -3.5, 0.9, -0.02);
         pine(-4.85, -3.35, 0.86, 0.02);
+        function shrub(x, z, s) {
+            var m = mesh(new T.DodecahedronGeometry(0.18 * s, 0), shrubMat, x, 0.18 * s, z, rnd() * 0.4, rnd() * 0.5, rnd() * 0.3);
+            m.scale.set(1.35, 0.72, 1);
+            var cap = mesh(new T.SphereGeometry(0.16 * s, 10, 6), snowMat, x - 0.02, 0.31 * s, z + 0.02, 0, 0, 0);
+            cap.scale.set(1.25, 0.34, 1);
+        }
+        function rock(x, z, s) {
+            var r = mesh(new T.DodecahedronGeometry(0.2 * s, 0), rockMat, x, 0.12 * s, z, rnd() * 0.9, rnd() * 0.9, rnd() * 0.9);
+            r.scale.set(1.35, 0.52, 0.88);
+        }
+        for (var sr = 0; sr < 18; sr++)
+            shrub(-4.8 + rnd() * 9.4, 3.55 + rnd() * 1.05, 0.65 + rnd() * 0.7);
+        for (var rr = 0; rr < 12; rr++)
+            rock(-5.3 + rnd() * 10.5, 4.0 + rnd() * 1.1, 0.6 + rnd() * 1.3);
         // Background world: sky, mountains, soft shadows. These stay stable while the model rotates.
         var skyTex = texture(skyCanvas(), 1, 1, 4);
-        scene.background = null;
-        scene.fog = new T.Fog(new T.Color(0xb8c1cf), 18, 48);
+        scene.background = skyTex;
+        scene.fog = new T.Fog(new T.Color(0xaab7c8), 18, 58);
         try {
             var envTex = skyTex.clone();
             if (T.EquirectangularReflectionMapping)
@@ -587,7 +629,7 @@
         catch (error) {
             scene.environment = skyTex;
         }
-        var ground = new T.Mesh(new T.PlaneGeometry(240, 240), new T.MeshStandardMaterial({ color: 0xf2f6fb, roughness: 0.96, transparent: true, opacity: 0.22 }));
+        var ground = new T.Mesh(new T.PlaneGeometry(240, 240), new T.MeshStandardMaterial({ color: 0xe9eff7, roughness: 0.96 }));
         ground.rotation.x = -Math.PI / 2;
         ground.position.y = -0.065;
         ground.receiveShadow = true;
@@ -603,7 +645,15 @@
         softShadow.rotation.x = -Math.PI / 2;
         softShadow.position.set(0.55, 0.01, 0.82);
         scene.add(softShadow);
-        scene.add(new T.HemisphereLight(0xb9c8e8, 0x261d17, 0.34));
+        var snowGeo = new T.BufferGeometry();
+        var snowPositions = [];
+        for (var sp = 0; sp < 460; sp++) {
+            snowPositions.push(-18 + rnd() * 36, 1.2 + rnd() * 8.5, -10 + rnd() * 24);
+        }
+        snowGeo.setAttribute("position", new T.Float32BufferAttribute(snowPositions, 3));
+        var snowPoints = new T.Points(snowGeo, new T.PointsMaterial({ color: 0xffffff, size: 0.022, transparent: true, opacity: 0.48, depthWrite: false }));
+        scene.add(snowPoints);
+        scene.add(new T.HemisphereLight(0xc5d2ee, 0x2b211a, 0.42));
         var sun = new T.DirectionalLight(0xffbf82, 1.82);
         sun.position.set(7.5, 7.4, 7.8);
         sun.castShadow = true;
@@ -616,16 +666,16 @@
         sun.shadow.camera.bottom = -11;
         sun.shadow.bias = -0.00035;
         scene.add(sun);
-        var fill = new T.DirectionalLight(0x8ea7d6, 0.38);
+        var fill = new T.DirectionalLight(0x9eb7e6, 0.48);
         fill.position.set(-6, 3.8, -5);
         scene.add(fill);
-        var interiorBoost = new T.PointLight(0xffb76d, 1.35, 10, 2);
+        var interiorBoost = new T.PointLight(0xffb76d, 1.65, 10, 2);
         interiorBoost.position.set(0.4, 2.1, 2.15);
         residence.add(interiorBoost);
-        var camera = new T.PerspectiveCamera(28, width / height, 0.1, 250);
-        camera.position.set(6.25, 2.82, 9.7);
-        camera.lookAt(new T.Vector3(0.18, 2.08, 0.78));
-        var targetRotation = -0.33;
+        var camera = new T.PerspectiveCamera(31, width / height, 0.1, 250);
+        camera.position.set(5.85, 2.65, 8.85);
+        camera.lookAt(new T.Vector3(0.0, 2.05, 0.98));
+        var targetRotation = -0.24;
         var rotation = targetRotation;
         var dragging = false;
         var pointerX = 0;
@@ -663,6 +713,8 @@
                 targetRotation += 0.0018;
             rotation += (targetRotation - rotation) * 0.075;
             residence.rotation.y = rotation;
+            if (snowPoints && !reduce)
+                snowPoints.rotation.y += 0.00045;
             renderer.render(scene, camera);
         }
         loop();
