@@ -1,11 +1,15 @@
 (function(){
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var header=document.getElementById('header');
-  function onScroll(){header.classList.toggle('solid', window.scrollY>window.innerHeight*0.7);}
+  var progressFill=document.querySelector('#pageProgress span') as HTMLElement;
+  function updateProgress(){if(!progressFill)return;var max=document.documentElement.scrollHeight-window.innerHeight;var pct=max>0?(window.scrollY/max)*100:0;progressFill.style.width=Math.max(0,Math.min(100,pct))+'%';}
+  function onScroll(){header.classList.toggle('solid', window.scrollY>window.innerHeight*0.7);updateProgress();}
   onScroll();window.addEventListener('scroll',onScroll,{passive:true});
   var mb=document.getElementById('menuBtn'),mm=document.getElementById('mobileMenu');
-  mb.addEventListener('click',function(){mm.classList.toggle('open');});
-  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mm.classList.remove('open');});});
+  function setMenu(open){mm.classList.toggle('open',open);mb.classList.toggle('open',open);mb.setAttribute('aria-expanded',open?'true':'false');mm.setAttribute('aria-hidden',open?'false':'true');document.body.classList.toggle('menu-open',open);}
+  mb.addEventListener('click',function(){setMenu(!mm.classList.contains('open'));});
+  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false);});
 
   var bandImg=document.getElementById('bandImg'),band=document.querySelector('.band');
   function bandPar(){if(reduce)return;if(bandImg&&band){var r=band.getBoundingClientRect();bandImg.style.transform='translateY('+((r.top-window.innerHeight/2)*-0.05)+'px)';}}
@@ -83,5 +87,27 @@
   document.getElementById('sqft').addEventListener('input',function(){state.sqft=parseInt((this as HTMLInputElement).value,10);calc();});
   calc();
   var coBtn=document.getElementById('coBtn');if(coBtn)coBtn.addEventListener('click',function(){this.textContent='Decision logged ✓';this.style.background='var(--bronze-d)';});
-  var ctaSend=document.getElementById('ctaSend');if(ctaSend)ctaSend.addEventListener('click',function(){var n=(document.getElementById('cName') as HTMLInputElement).value.trim();this.innerHTML=(n?'Thank you, '+n.split(' ')[0]+" — we'll reach out about your project ✓":'Project conversation started ✓');});
+  var contactForm=document.getElementById('contactForm') as HTMLFormElement,ctaSend=document.getElementById('ctaSend') as HTMLButtonElement,formStatus=document.getElementById('formStatus');
+  function setFormStatus(msg,type){if(!formStatus)return;formStatus.textContent=msg;formStatus.className='form-status '+(type||'');}
+  function setInvalid(el,on){if(el)el.classList.toggle('is-invalid',!!on);}
+  if(contactForm)contactForm.addEventListener('submit',async function(e){e.preventDefault();
+    var name=document.getElementById('cName') as HTMLInputElement,email=document.getElementById('cEmail') as HTMLInputElement,type=document.getElementById('cType') as HTMLSelectElement,notes=document.getElementById('cNotes') as HTMLTextAreaElement;
+    [name,email,type,notes].forEach(function(el){setInvalid(el,false);});
+    var errors=[];if(!name.value.trim()){errors.push('name');setInvalid(name,true);}if(!email.validity.valid){errors.push('email');setInvalid(email,true);}if(!type.value){errors.push('project type');setInvalid(type,true);}
+    if(errors.length){setFormStatus('Please check your '+errors.join(', ')+' before sending.','err');return;}
+    var original=ctaSend.innerHTML;ctaSend.disabled=true;ctaSend.innerHTML='<span class="btn-label">Sending securely...</span>';
+    try{
+      var res=await fetch('/api/enquiries',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name.value,email:email.value,projectType:type.value,notes:notes.value,source:'constructx-site'})});
+      var data=await res.json().catch(function(){return{};});
+      if(!res.ok){setFormStatus((data&&data.error)||'Could not save the enquiry. Please check the form and try again.','err');ctaSend.innerHTML=original;return;}
+      setFormStatus('Enquiry saved privately. We’ll review it and follow up with the right next step.','ok');
+      ctaSend.innerHTML='<span class="btn-label">Project conversation started ✓</span>';
+      contactForm.reset();
+    }catch(err){
+      setFormStatus('The site is running, but the enquiry API did not respond. Try again after restarting npm run dev.','err');
+      ctaSend.innerHTML=original;
+    }finally{
+      ctaSend.disabled=false;
+    }
+  });
 })();

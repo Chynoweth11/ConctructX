@@ -9,6 +9,10 @@ Thumbs.db
 *.tmp
 *.bak
 
+# Private runtime form submissions
+data/*.jsonl
+data/*.db
+
 # Python
 __pycache__/
 *.py[cod]

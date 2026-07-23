@@ -7,7 +7,7 @@ Note: the GitHub repository is named `ConctructX`, while the website brand shown
 ## Stack
 
 - Frontend: TypeScript/JavaScript, HTML, CSS
-- Backend/server: Python standard-library HTTP server
+- Backend/server: Python standard-library HTTP server with a private enquiry API
 
 The original single-file `constructx.html` has been organized into separate frontend source, compiled browser assets, images, docs, and backend server code. See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for the full layout.
 
@@ -40,6 +40,12 @@ Compile TypeScript from `frontend/src` into `assets/js`:
 ```powershell
 npm run build
 ```
+
+## Private enquiries
+
+The contact form posts to the Python backend at `POST /api/enquiries`. Submissions are stored locally as JSON Lines in `data/enquiries.jsonl`.
+
+That file is intentionally ignored by Git so client/project details do not get committed.
 
 ## Notes
 
