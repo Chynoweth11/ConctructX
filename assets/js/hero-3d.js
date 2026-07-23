@@ -42,11 +42,13 @@
         var height = mount.clientHeight || 760;
         var renderer = new T.WebGLRenderer({
             antialias: true,
-            alpha: false,
+            alpha: true,
+            premultipliedAlpha: false,
             powerPreference: "high-performance",
         });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setSize(width, height);
+        renderer.setClearColor(0x000000, 0);
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = T.PCFSoftShadowMap;
         renderer.physicallyCorrectLights = true;
@@ -56,12 +58,12 @@
             renderer.outputEncoding = T.sRGBEncoding;
         if (T.ACESFilmicToneMapping)
             renderer.toneMapping = T.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 0.82;
+        renderer.toneMappingExposure = 0.96;
         mount.appendChild(renderer.domElement);
         var scene = new T.Scene();
         var residence = new T.Group();
-        residence.position.set(0.28, -0.05, 0.32);
-        residence.scale.set(0.9, 0.9, 0.9);
+        residence.position.set(0.46, -0.09, 0.18);
+        residence.scale.set(0.78, 0.78, 0.78);
         scene.add(residence);
         var seed = 18;
         function rnd() {
@@ -346,9 +348,9 @@
             metalness: 0,
         });
         var roofMat = new T.MeshStandardMaterial({
-            color: 0x121417,
-            roughness: 0.38,
-            metalness: 0.38,
+            color: 0x0d1013,
+            roughness: 0.46,
+            metalness: 0.46,
             envMapIntensity: 1.05,
         });
         var frameMat = new T.MeshStandardMaterial({
@@ -357,18 +359,18 @@
             metalness: 0.58,
             envMapIntensity: 1.1,
         });
-        var snowMat = new T.MeshStandardMaterial({ color: 0xf2f6fb, roughness: 0.83 });
+        var snowMat = new T.MeshStandardMaterial({ color: 0xf4f7fb, roughness: 0.92, metalness: 0 });
         var glassMat = new T.MeshPhysicalMaterial({
             map: texture(glassReflectionCanvas(), 1, 1, 4),
-            color: 0x4e6071,
-            roughness: 0.075,
-            metalness: 0.16,
+            color: 0x5f7486,
+            roughness: 0.045,
+            metalness: 0.08,
             clearcoat: 1,
             clearcoatRoughness: 0.03,
             transparent: true,
-            opacity: 0.58,
+            opacity: 0.46,
             reflectivity: 0.92,
-            envMapIntensity: 2.4,
+            envMapIntensity: 3.1,
         });
         var railMat = new T.MeshPhysicalMaterial({
             color: 0xc6d9e7,
@@ -376,7 +378,7 @@
             metalness: 0,
             clearcoat: 1,
             transparent: true,
-            opacity: 0.24,
+            opacity: 0.2,
             envMapIntensity: 1.35,
         });
         var warmMat = new T.MeshStandardMaterial({
@@ -472,8 +474,9 @@
                 residence.add(light);
             }
         }
-        // Snow platform and patio
-        box(12.2, 0.16, 8.2, snowMat, 0, 0.02, 0.65);
+        // Snow plane and patio. A flat plane avoids the toy-like platform edge.
+        var snowPlane = mesh(new T.PlaneGeometry(12.8, 8.6), snowMat, 0, 0.035, 0.65, -Math.PI / 2, 0, 0);
+        snowPlane.castShadow = false;
         box(9.4, 0.08, 2.8, tileMat, 0.35, 0.13, 3.15);
         box(4.2, 0.06, 1.8, tileMat, -2.3, 1.55, 2.3);
         box(3.4, 0.06, 1.5, tileMat, -1.2, 2.92, 2.05);
@@ -565,18 +568,14 @@
                 }
             }
         }
-        pine(-5.6, 1.85, 1.55, -0.04);
-        pine(-5.25, -2.45, 1.85, 0.03);
-        pine(-5.0, 3.85, 1.25, -0.02);
-        pine(5.15, 1.85, 1.45, 0.02);
-        pine(5.1, -2.8, 1.65, -0.02);
-        pine(5.9, 3.65, 1.22, 0.03);
-        pine(2.65, -4.15, 1.25, 0);
-        pine(-2.45, -4.35, 1.35, -0.02);
+        pine(-5.75, 3.65, 0.98, -0.03);
+        pine(5.6, 3.45, 0.94, 0.02);
+        pine(4.95, -3.5, 0.9, -0.02);
+        pine(-4.85, -3.35, 0.86, 0.02);
         // Background world: sky, mountains, soft shadows. These stay stable while the model rotates.
         var skyTex = texture(skyCanvas(), 1, 1, 4);
-        scene.background = skyTex;
-        scene.fog = new T.Fog(new T.Color(0x9ca8b8), 16, 58);
+        scene.background = null;
+        scene.fog = new T.Fog(new T.Color(0xb8c1cf), 18, 48);
         try {
             var envTex = skyTex.clone();
             if (T.EquirectangularReflectionMapping)
@@ -588,7 +587,7 @@
         catch (error) {
             scene.environment = skyTex;
         }
-        var ground = new T.Mesh(new T.PlaneGeometry(240, 240), new T.MeshStandardMaterial({ color: 0xdfe6ef, roughness: 0.94 }));
+        var ground = new T.Mesh(new T.PlaneGeometry(240, 240), new T.MeshStandardMaterial({ color: 0xf2f6fb, roughness: 0.96, transparent: true, opacity: 0.22 }));
         ground.rotation.x = -Math.PI / 2;
         ground.position.y = -0.065;
         ground.receiveShadow = true;
@@ -637,6 +636,8 @@
             interacted = true;
             pointerX = event.clientX;
             mount.style.cursor = "grabbing";
+            if (mount.parentElement)
+                mount.parentElement.classList.add("dragging");
             if (event.cancelable && event.pointerType !== "touch")
                 event.preventDefault();
         }
@@ -649,6 +650,8 @@
         function pointerUp() {
             dragging = false;
             mount.style.cursor = "grab";
+            if (mount.parentElement)
+                mount.parentElement.classList.remove("dragging");
         }
         mount.addEventListener("pointerdown", pointerDown);
         window.addEventListener("pointermove", pointerMove);
