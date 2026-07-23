@@ -10,7 +10,10 @@ from __future__ import annotations
 import json
 import os
 import re
+import smtplib
+import ssl
 from datetime import datetime, timezone
+from email.message import EmailMessage
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
@@ -89,10 +92,12 @@ class ConstructXRequestHandler(SimpleHTTPRequestHandler):
             return
 
         save_enquiry(entry)
+        email_sent = send_enquiry_email(entry)
         self.send_json(
             201,
             {
                 "ok": True,
+                "emailSent": email_sent,
                 "message": "Enquiry received. ConstructX will review the project details and follow up with next steps.",
             },
         )
@@ -113,8 +118,10 @@ def validate_enquiry(payload: object) -> tuple[dict, dict]:
     name = clean_text(payload.get("name"), 120)
     email = clean_text(payload.get("email"), 160).lower()
     project_type = clean_text(payload.get("projectType"), 120)
+    project_stage = clean_text(payload.get("projectStage"), 120)
     notes = clean_text(payload.get("notes"), 1200)
     source = clean_text(payload.get("source"), 80) or "website"
+    approx_sqft = normalize_optional_int(payload.get("approxSqft"), 0, 200_000)
 
     errors: dict[str, str] = {}
     if len(name) < 2:
@@ -131,10 +138,23 @@ def validate_enquiry(payload: object) -> tuple[dict, dict]:
         "name": name,
         "email": email,
         "project_type": project_type,
+        "project_stage": project_stage,
+        "approx_sqft": approx_sqft,
         "notes": notes,
         "source": source,
     }
     return entry, errors
+
+
+def normalize_optional_int(value: object, minimum: int, maximum: int) -> int | None:
+    """Return an optional integer safely bounded for form metadata."""
+    if value is None or value == "":
+        return None
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        return None
+    return max(minimum, min(maximum, parsed))
 
 
 def get_data_dir() -> Path:
@@ -150,6 +170,88 @@ def save_enquiry(entry: dict) -> None:
     target = data_dir / "enquiries.jsonl"
     with target.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+
+def env_flag(name: str, default: bool = False) -> bool:
+    """Read a simple boolean environment flag."""
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def format_enquiry_email(entry: dict) -> str:
+    """Create a concise internal email body for the ConstructX team."""
+    scope = (
+        f"{entry.get('approx_sqft'):,} sq ft"
+        if isinstance(entry.get("approx_sqft"), int)
+        else "Not provided"
+    )
+    return "\n".join(
+        [
+            "New ConstructX website enquiry",
+            "",
+            f"Name: {entry.get('name', '')}",
+            f"Email: {entry.get('email', '')}",
+            f"Project type: {entry.get('project_type', '')}",
+            f"Project stage: {entry.get('project_stage') or 'Not provided'}",
+            f"Approx. scope: {scope}",
+            f"Source: {entry.get('source', 'website')}",
+            f"Submitted: {entry.get('created_at', '')}",
+            "",
+            "Notes:",
+            entry.get("notes") or "No notes provided.",
+        ]
+    )
+
+
+def send_enquiry_email(entry: dict) -> bool:
+    """Email an enquiry to the ConstructX team when SMTP is configured."""
+    recipient = os.environ.get("CONSTRUCTX_TEAM_EMAIL")
+    smtp_host = os.environ.get("SMTP_HOST")
+    if not recipient or not smtp_host:
+        return False
+
+    sender = (
+        os.environ.get("SMTP_FROM_EMAIL")
+        or os.environ.get("SMTP_USERNAME")
+        or recipient
+    )
+    try:
+        smtp_port = int(os.environ.get("SMTP_PORT", "587"))
+    except ValueError:
+        smtp_port = 587
+
+    message = EmailMessage()
+    message["Subject"] = f"New ConstructX enquiry: {entry.get('project_type', 'Project')}"
+    message["From"] = sender
+    message["To"] = recipient
+    message["Reply-To"] = entry.get("email", "")
+    message.set_content(format_enquiry_email(entry))
+
+    username = os.environ.get("SMTP_USERNAME")
+    password = os.environ.get("SMTP_PASSWORD")
+    use_ssl = env_flag("SMTP_USE_SSL", False)
+    use_tls = env_flag("SMTP_USE_TLS", True)
+    context = ssl.create_default_context()
+
+    try:
+        if use_ssl:
+            with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=15, context=context) as smtp:
+                if username and password:
+                    smtp.login(username, password)
+                smtp.send_message(message)
+        else:
+            with smtplib.SMTP(smtp_host, smtp_port, timeout=15) as smtp:
+                if use_tls:
+                    smtp.starttls(context=context)
+                if username and password:
+                    smtp.login(username, password)
+                smtp.send_message(message)
+    except Exception as exc:  # pragma: no cover - depends on deployment SMTP
+        print(f"Could not email ConstructX enquiry: {exc}")
+        return False
+    return True
 
 
 def get_port() -> int:

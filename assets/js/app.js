@@ -105,33 +105,45 @@
     var mapCanvas = document.getElementById('mapCanvas'), mapName = document.getElementById('mapName'), mapCoord = document.getElementById('mapCoord'), mapStatus = document.getElementById('mapStatus');
     function selectSite(s) { mapName.style.opacity = '0'; setTimeout(function () { mapName.textContent = s.name; mapCoord.textContent = s.coord; mapStatus.innerHTML = '<span class="d" style="background:' + (s.st === 'active' ? 'var(--bronze)' : 'var(--ink)') + '"></span> ' + s.lbl; mapName.style.opacity = '1'; }, 150); }
     sites.forEach(function (s) { var m = document.createElement('div'); m.className = 'marker ' + (s.st === 'active' ? 'active' : 'done'); m.style.left = s.x + '%'; m.style.top = s.y + '%'; m.innerHTML = '<div class="pin"></div>'; m.setAttribute('tabindex', '0'); m.setAttribute('role', 'button'); m.setAttribute('aria-label', s.name); m.addEventListener('click', function () { selectSite(s); }); m.addEventListener('mouseenter', function () { selectSite(s); }); m.addEventListener('focus', function () { selectSite(s); }); mapCanvas.appendChild(m); });
-    var typeName = { lux: 'Luxury residential', lake: 'Mountain / lake', com: 'Commercial', int: 'Interiors / remodels' };
+    var typeName = { interiors: 'Interiors/Remodeling', residential: 'Residential', commercial: 'Commercial', custom: 'Custom' };
     var fitCopy = {
-        lux: { head: 'Private consultation', body: 'Custom homes and estates start with a confidential scope review, site conversation, and design-intent alignment.', next: 'Discovery call' },
-        lake: { head: 'Site-led planning', body: 'Mountain and lake properties need early conversations around access, weather, utilities, approvals, and material logistics.', next: 'Site / access review' },
-        com: { head: 'Commercial discovery', body: 'Retail, hospitality, office, and mixed-use work starts with operations, schedule, phasing, and brand requirements.', next: 'Use-case review' },
-        int: { head: 'Interior / remodel review', body: 'Interior work and remodels begin with existing conditions, finish expectations, phasing, and occupied-space planning.', next: 'Walkthrough consult' }
+        interiors: { head: 'Interior / remodel review', body: 'Existing conditions, finish goals, phasing, and occupied-space constraints are reviewed before scope is set.', next: 'Walkthrough consult' },
+        residential: { head: 'Residential discovery', body: 'Custom homes and private residences start with goals, site context, privacy, schedule, and design-intent alignment.', next: 'Discovery call' },
+        commercial: { head: 'Commercial discovery', body: 'Retail, hospitality, office, and tenant-improvement work starts with operations, phasing, code, and brand requirements.', next: 'Use-case review' },
+        custom: { head: 'Custom scope review', body: 'Unique projects begin with a confidential conversation around the vision, constraints, standards, and the right delivery path.', next: 'Private consult' }
     };
-    var state = { type: 'lux', sqft: 6000, finName: 'Full-service', siteName: 'Residential / private' };
+    var stageNext = { 'Planning / budgeting': 'Scope discovery', 'Ready to build': 'Pre-construction review', 'In progress / rescue': 'Stabilization review' };
+    var state = { type: 'interiors', sqft: 6000, stageName: 'Planning / budgeting' };
     function calc() {
-        var fit = fitCopy[state.type] || fitCopy.lux;
+        var fit = fitCopy[state.type] || fitCopy.interiors;
         document.getElementById('eoRange').textContent = fit.head;
         document.getElementById('eoPer').textContent = fit.body;
         document.getElementById('eoBase').textContent = typeName[state.type];
         document.getElementById('eoFin').textContent = state.sqft.toLocaleString() + ' sq ft';
-        document.getElementById('eoSite').textContent = state.finName + ' · ' + state.siteName;
-        document.getElementById('eoDur').textContent = fit.next;
+        document.getElementById('eoStage').textContent = state.stageName;
+        document.getElementById('eoDur').textContent = stageNext[state.stageName] || fit.next;
         document.getElementById('lblType').textContent = typeName[state.type];
         document.getElementById('lblSqft').textContent = state.sqft.toLocaleString() + ' sq ft';
-        document.getElementById('lblFinish').textContent = state.finName;
-        document.getElementById('lblSite').textContent = state.siteName;
+        document.getElementById('lblStage').textContent = state.stageName;
     }
-    function segWire(id, fn) { var seg = document.getElementById(id); seg.querySelectorAll('button').forEach(function (bn) { bn.addEventListener('click', function () { seg.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); }); bn.classList.add('on'); fn(bn); calc(); }); }); }
+    function segWire(id, fn) { var seg = document.getElementById(id); if (!seg)
+        return; seg.querySelectorAll('button').forEach(function (bn) { bn.addEventListener('click', function () { seg.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); }); bn.classList.add('on'); fn(bn); calc(); }); }); }
     segWire('segType', function (b) { state.type = b.getAttribute('data-type'); });
-    segWire('segFinish', function (b) { state.finName = b.getAttribute('data-service') || b.textContent; });
-    segWire('segSite', function (b) { state.siteName = b.getAttribute('data-setting') || b.textContent; });
+    segWire('segStage', function (b) { state.stageName = b.getAttribute('data-stage') || b.textContent; });
     document.getElementById('sqft').addEventListener('input', function () { state.sqft = parseInt(this.value, 10); calc(); });
     calc();
+    var fitCta = document.getElementById('fitCta');
+    if (fitCta)
+        fitCta.addEventListener('click', function () {
+            var type = document.getElementById('cType'), notes = document.getElementById('cNotes'), name = document.getElementById('cName');
+            var summary = 'Project fit: ' + typeName[state.type] + ' · ' + state.sqft.toLocaleString() + ' sq ft · ' + state.stageName + '.';
+            if (type)
+                type.value = typeName[state.type];
+            if (notes && !notes.value.trim())
+                notes.value = summary;
+            setTimeout(function () { if (name)
+                name.focus({ preventScroll: true }); }, 80);
+        });
     var coBtn = document.getElementById('coBtn');
     if (coBtn)
         coBtn.addEventListener('click', function () { this.textContent = 'Decision logged ✓'; this.style.background = 'var(--bronze-d)'; });
@@ -166,14 +178,14 @@
             ctaSend.disabled = true;
             ctaSend.innerHTML = '<span class="btn-label">Sending securely...</span>';
             try {
-                var res = await fetch('/api/enquiries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name.value, email: email.value, projectType: type.value, notes: notes.value, source: 'constructx-site' }) });
+                var res = await fetch('/api/enquiries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name.value, email: email.value, projectType: type.value, approxSqft: state.sqft, projectStage: state.stageName, notes: notes.value, source: 'constructx-site' }) });
                 var data = await res.json().catch(function () { return {}; });
                 if (!res.ok) {
                     setFormStatus((data && data.error) || 'Could not save the enquiry. Please check the form and try again.', 'err');
                     ctaSend.innerHTML = original;
                     return;
                 }
-                setFormStatus('Enquiry saved privately. We’ll review it and follow up with the right next step.', 'ok');
+                setFormStatus((data && data.message) || 'Enquiry received. We’ll review it and follow up with the right next step.', 'ok');
                 ctaSend.innerHTML = '<span class="btn-label">Project conversation started ✓</span>';
                 contactForm.reset();
             }

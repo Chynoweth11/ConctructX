@@ -47,6 +47,19 @@ The contact form posts to the Python backend at `POST /api/enquiries`. Submissio
 
 That file is intentionally ignored by Git so client/project details do not get committed.
 
+To send enquiries directly to the ConstructX team by email, configure SMTP in the hosting environment:
+
+```powershell
+$env:CONSTRUCTX_TEAM_EMAIL="team@example.com"
+$env:SMTP_HOST="smtp.example.com"
+$env:SMTP_PORT="587"
+$env:SMTP_USERNAME="smtp-user"
+$env:SMTP_PASSWORD="smtp-password"
+$env:SMTP_FROM_EMAIL="website@example.com"
+```
+
+If SMTP is not configured, the form still accepts and stores private enquiries locally.
+
 ## Notes
 
 - Edit TypeScript source in `frontend/src/`.

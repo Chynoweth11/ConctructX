@@ -220,23 +220,22 @@
     </div>
     <div class="est reveal">
       <div class="est-controls">
-        <div class="field"><div class="field-l">Project type <b id="lblType">Luxury residential</b></div><div class="seg" id="segType"><button class="on" data-type="lux">Luxury residential</button><button data-type="lake">Mountain / lake</button><button data-type="com">Commercial</button><button data-type="int">Interiors / remodels</button></div></div>
+        <div class="field"><div class="field-l">Project type <b id="lblType">Interiors/Remodeling</b></div><div class="seg" id="segType"><button class="on" data-type="interiors">Interiors/Remodeling</button><button data-type="residential">Residential</button><button data-type="commercial">Commercial</button><button data-type="custom">Custom</button></div></div>
         <div class="field"><div class="field-l">Approx. size <b id="lblSqft">6,000 sq ft</b></div><input type="range" id="sqft" min="800" max="30000" step="100" value="6000"></div>
-        <div class="field"><div class="field-l">Engagement <b id="lblFinish">Full-service</b></div><div class="seg" id="segFinish"><button data-service="Pre-construction">Pre-construction</button><button class="on" data-service="Full-service">Full-service</button><button data-service="Interior detail">Interior detail</button></div></div>
-        <div class="field"><div class="field-l">Setting <b id="lblSite">Residential / private</b></div><div class="seg" id="segSite"><button class="on" data-setting="Residential / private">Residential / private</button><button data-setting="Mountain / lake">Mountain / lake</button><button data-setting="Commercial / active site">Commercial / active site</button></div></div>
+        <div class="field"><div class="field-l">Project stage <b id="lblStage">Planning / budgeting</b></div><div class="seg" id="segStage"><button class="on" data-stage="Planning / budgeting">Planning / budgeting</button><button data-stage="Ready to build">Ready to build</button><button data-stage="In progress / rescue">In progress / rescue</button></div></div>
       </div>
       <div class="eo">
         <div class="eo-l">Project fit snapshot</div>
-        <div class="eo-range" id="eoRange">Private consultation</div>
+        <div class="eo-range" id="eoRange">Interior / remodel review</div>
         <div class="eo-per" id="eoPer">We’ll align scope, delivery path, and the right ConstructX team before budget is discussed.</div>
         <div class="eo-break">
-          <div class="eo-line"><span>Category</span><span id="eoBase">Luxury residential</span></div>
+          <div class="eo-line"><span>Category</span><span id="eoBase">Interiors/Remodeling</span></div>
           <div class="eo-line"><span>Approx. scope</span><span id="eoFin">6,000 sq ft</span></div>
-          <div class="eo-line"><span>Engagement</span><span id="eoSite">Full-service</span></div>
+          <div class="eo-line"><span>Project stage</span><span id="eoStage">Planning / budgeting</span></div>
           <div class="eo-line"><span>Recommended next step</span><span id="eoDur">Discovery call</span></div>
         </div>
         <div class="eo-note">No public calculator can responsibly price a custom build. We’ll review site conditions, design intent, schedule, procurement, and finish expectations privately.</div>
-        <a href="#contact" class="btn btn-solid">Start a private consultation <span class="a">→</span></a>
+        <a href="#contact" class="btn btn-solid" id="fitCta">Start a private consultation <span class="a">→</span></a>
       </div>
     </div>
   </div>
@@ -315,7 +314,7 @@
           <label class="fl" for="cName">Name</label><input type="text" placeholder="Your name" id="cName" name="name" autocomplete="name" required>
           <label class="fl" for="cEmail">Email</label><input type="email" placeholder="you@email.com" id="cEmail" name="email" autocomplete="email" required>
           <label class="fl" for="cType">What are we building?</label>
-          <select id="cType" name="projectType" required><option>Luxury residential</option><option>Mountain / lake property</option><option>Commercial / retail space</option><option>Interior buildout</option><option>Remodel / restoration</option><option>Something unique</option></select>
+          <select id="cType" name="projectType" required><option>Interiors/Remodeling</option><option>Residential</option><option>Commercial</option><option>Custom</option></select>
           <label class="fl" for="cNotes">Project notes</label><textarea id="cNotes" name="notes" rows="4" maxlength="1200" placeholder="Tell us the location, scope, timeline, or any early details you want protected."></textarea>
           <div class="form-note">Private by default. Your enquiry is stored locally by the Python app and never shown on the public page.</div>
           <button class="btn btn-solid" id="ctaSend" type="submit"><span class="btn-label">Start a project conversation</span> <span class="a">→</span></button>
