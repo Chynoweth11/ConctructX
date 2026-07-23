@@ -206,7 +206,7 @@
             }
         });
         let frame = 0;
-        let onScreen = true;
+        let onScreen = false;
         let pageVisible = !document.hidden;
         const settled = () => !dragging && interacted && Math.abs(targetRotation - rotation) < 0.0002;
         function renderOnce() {
@@ -230,6 +230,8 @@
             frame = requestAnimationFrame(tick);
         }
         function setActive(active) {
+            if (active === onScreen)
+                return;
             onScreen = active;
             if (active)
                 requestFrame();
@@ -238,7 +240,25 @@
                 frame = 0;
             }
         }
-        const visibility = new IntersectionObserver((entries) => setActive(entries.some((entry) => entry.isIntersecting)), { threshold: 0.01 });
+        const isOnScreen = () => {
+            const rect = media.getBoundingClientRect();
+            return rect.bottom > 0 && rect.top < window.innerHeight;
+        };
+        let visibilityScheduled = false;
+        const syncVisibility = () => {
+            if (visibilityScheduled)
+                return;
+            visibilityScheduled = true;
+            requestAnimationFrame(() => {
+                visibilityScheduled = false;
+                setActive(isOnScreen());
+            });
+        };
+        window.addEventListener("scroll", syncVisibility, { passive: true });
+        window.addEventListener("resize", syncVisibility, { passive: true });
+        const visibility = new IntersectionObserver(() => syncVisibility(), {
+            threshold: 0.01,
+        });
         visibility.observe(media);
         const onVisibilityChange = () => {
             pageVisible = !document.hidden;
@@ -277,6 +297,8 @@
             if (frame)
                 cancelAnimationFrame(frame);
             visibility.disconnect();
+            window.removeEventListener("scroll", syncVisibility);
+            window.removeEventListener("resize", syncVisibility);
             document.removeEventListener("visibilitychange", onVisibilityChange);
             window.removeEventListener("pointermove", onPointerMove);
             window.removeEventListener("pointerup", onPointerUp);
@@ -292,7 +314,7 @@
             renderer.dispose();
         };
         window.addEventListener("pagehide", dispose, { once: true });
-        requestFrame();
+        setActive(isOnScreen());
     }
 })();
 //# sourceMappingURL=hero-3d.js.map

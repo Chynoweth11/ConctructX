@@ -304,7 +304,7 @@ interface Window {
     /* --------------------------------------------------------- render loop */
 
     let frame = 0;
-    let onScreen = true;
+    let onScreen = false;
     let pageVisible = !document.hidden;
 
     const settled = (): boolean =>
@@ -336,6 +336,7 @@ interface Window {
     }
 
     function setActive(active: boolean): void {
+      if (active === onScreen) return;
       onScreen = active;
       if (active) requestFrame();
       else if (frame) {
@@ -344,10 +345,39 @@ interface Window {
       }
     }
 
-    const visibility = new IntersectionObserver(
-      (entries) => setActive(entries.some((entry) => entry.isIntersecting)),
-      { threshold: 0.01 },
-    );
+    /**
+     * Whether any part of the hero is in the viewport.
+     *
+     * This is measured directly rather than taken from IntersectionObserver
+     * alone. IO proved unreliable for re-entry here: scrolling away fired the
+     * leaving callback, but scrolling back never fired the returning one, so
+     * the loop stayed parked and the hero froze permanently. A bounding-rect
+     * read on a rAF-throttled scroll listener is deterministic, and it is one
+     * layout read per frame only while scrolling.
+     */
+    const isOnScreen = (): boolean => {
+      const rect = media.getBoundingClientRect();
+      return rect.bottom > 0 && rect.top < window.innerHeight;
+    };
+
+    let visibilityScheduled = false;
+    const syncVisibility = (): void => {
+      if (visibilityScheduled) return;
+      visibilityScheduled = true;
+      requestAnimationFrame(() => {
+        visibilityScheduled = false;
+        setActive(isOnScreen());
+      });
+    };
+
+    window.addEventListener("scroll", syncVisibility, { passive: true });
+    window.addEventListener("resize", syncVisibility, { passive: true });
+
+    // IO stays as a supplement: it catches visibility changes that produce no
+    // scroll event, such as an ancestor being shown or hidden.
+    const visibility = new IntersectionObserver(() => syncVisibility(), {
+      threshold: 0.01,
+    });
     visibility.observe(media);
 
     const onVisibilityChange = (): void => {
@@ -391,6 +421,8 @@ interface Window {
     const dispose = (): void => {
       if (frame) cancelAnimationFrame(frame);
       visibility.disconnect();
+      window.removeEventListener("scroll", syncVisibility);
+      window.removeEventListener("resize", syncVisibility);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", onPointerUp);
@@ -406,6 +438,6 @@ interface Window {
 
     window.addEventListener("pagehide", dispose, { once: true });
 
-    requestFrame();
+    setActive(isOnScreen());
   }
 })();
