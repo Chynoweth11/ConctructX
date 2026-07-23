@@ -1,65 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ConstructX — Luxury Residential, Commercial &amp; Interior Builds</title>
-<meta name="description" content="ConstructX builds high-end residential, mountain, lake, commercial, interior, and remodel projects with engineering discipline, clean communication, and premium execution.">
+<meta name="description" content="ConstructX builds high-end residential, mountain, lake, commercial, interior, and remodel projects with engineering discipline, clear communication, and premium execution.">
+
+<link rel="canonical" href="https://constructx.example.com/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#1E1A15">
+<meta name="color-scheme" content="light">
+
+<meta property="og:site_name" content="ConstructX">
 <meta property="og:title" content="ConstructX — Luxury Builds">
 <meta property="og:description" content="High-end homes, commercial spaces, interiors, and remodels delivered with the discipline of an engineering firm and the transparency of a live dashboard.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#1E1A15">
-<link rel="icon" href="assets/images/favicon.svg">
+<meta property="og:url" content="https://constructx.example.com/">
+<meta property="og:image" content="https://constructx.example.com/assets/images/hero-mountain-residence-1440.jpg">
+<meta property="og:image:width" content="1440">
+<meta property="og:image:height" content="960">
+<meta property="og:image:alt" content="A stone-and-timber mountain residence lit from within at dusk.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ConstructX — Luxury Builds">
+<meta name="twitter:description" content="High-end homes, commercial spaces, interiors, and remodels, delivered with engineering discipline.">
+<meta name="twitter:image" content="https://constructx.example.com/assets/images/hero-mountain-residence-1440.jpg">
+
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/images/favicon.svg">
+<link rel="manifest" href="site.webmanifest">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/images/hero-mountain-residence-1440.webp" type="image/webp" imagesrcset="assets/images/hero-mountain-residence-960.webp 960w, assets/images/hero-mountain-residence-1440.webp 1440w, assets/images/hero-mountain-residence-1536.webp 1536w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="assets/css/styles.css">
+<!-- Loaded as print media so it never blocks first paint; boot.js promotes it
+     to all media. The noscript copy covers scripting-disabled browsers. -->
+<link id="webfonts" rel="stylesheet" media="print" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=Inter:wght@400;500;600&display=swap"></noscript>
+
+<script src="assets/js/boot.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "GeneralContractor",
+  "name": "ConstructX",
+  "url": "https://constructx.example.com/",
+  "description": "High-end residential, mountain, lake, commercial, interior, and remodel construction.",
+  "image": "https://constructx.example.com/assets/images/hero-mountain-residence-1440.jpg",
+  "areaServed": [
+    { "@type": "State", "name": "Colorado" },
+    { "@type": "Place", "name": "Mountain West, United States" }
+  ],
+  "knowsAbout": [
+    "Luxury residential construction",
+    "Design-build delivery",
+    "Commercial tenant improvement",
+    "Interior buildout and remodeling"
+  ],
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Luxury residential construction" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial construction" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Design-build" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interiors and remodels" } }
+  ]
+}
+</script>
 </head>
 <body>
-<a class="skip" href="#approach">Skip to content</a>
-<div class="page-progress" id="pageProgress" aria-hidden="true"><span></span></div>
+<a class="skip" href="#main">Skip to content</a>
+<div class="page-progress js-only" id="pageProgress" aria-hidden="true"><span></span></div>
 
 <header id="header">
-  <nav class="nav" aria-label="Primary navigation">
-    <a href="#top" class="brand" aria-label="ConstructX home">
-      <svg viewBox="0 0 26 26" fill="none"><rect x="1" y="1" width="24" height="24" rx="5" stroke="currentColor" stroke-width="1.3"/><path d="M7 7l12 12M19 7L7 19" stroke="#A8895C" stroke-width="1.5"/></svg>
+  <nav class="nav" aria-label="Primary">
+    <a href="#top" class="brand" aria-label="ConstructX — home">
+      <svg viewBox="0 0 26 26" fill="none" aria-hidden="true" focusable="false"><rect x="1" y="1" width="24" height="24" rx="5" stroke="currentColor" stroke-width="1.3"/><path d="M7 7l12 12M19 7L7 19" stroke="#A8895C" stroke-width="1.5"/></svg>
       Construct<span class="x">X</span>
     </a>
     <div class="nav-links">
-      <a href="#work">Projects</a><a href="#approach">Approach</a><a href="#process">Process</a><a href="#ownership">Ownership</a><a href="#estimate">Project Fit</a>
+      <a href="#work">Projects</a><a href="#approach">Approach</a><a href="#process">Process</a><a href="#ownership">Ownership</a><a href="#estimate">Project fit</a>
     </div>
     <div class="nav-right">
       <a href="#contact" class="nav-enquire">Begin an enquiry</a>
-      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false"><span></span></button>
+      <button class="menu-btn js-only" id="menuBtn" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false"><span></span></button>
     </div>
   </nav>
 </header>
-<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-  <a href="#work">Projects</a><a href="#approach">Approach</a><a href="#process">Process</a><a href="#ownership">Ownership</a><a href="#estimate">Project Fit</a>
+
+<div class="mobile-menu" id="mobileMenu" hidden>
+  <a href="#work">Projects</a><a href="#approach">Approach</a><a href="#process">Process</a><a href="#ownership">Ownership</a><a href="#estimate">Project fit</a>
   <a href="#contact" class="btn btn-solid">Begin an enquiry</a>
 </div>
 
-<section class="hero" id="top">
-  <div class="hero-media" id="heroMedia"><div id="hero3d"></div><img id="heroImg" style="display:none" src="assets/images/hero-mountain-residence.jpg" alt="ConstructX mountain residence at dusk"></div>
+<main id="main">
+
+<section class="hero" id="top" aria-labelledby="heroTitle">
+  <div class="hero-media" id="heroMedia">
+    <div id="hero3d" aria-hidden="true"></div>
+    <picture>
+      <source type="image/webp" srcset="assets/images/hero-mountain-residence-960.webp 960w, assets/images/hero-mountain-residence-1440.webp 1440w, assets/images/hero-mountain-residence-1536.webp 1536w" sizes="100vw">
+      <img id="heroImg" src="assets/images/hero-mountain-residence-1440.jpg"
+           srcset="assets/images/hero-mountain-residence-960.jpg 960w, assets/images/hero-mountain-residence-1440.jpg 1440w, assets/images/hero-mountain-residence-1536.jpg 1536w"
+           sizes="100vw" width="1440" height="960" fetchpriority="high" decoding="async"
+           alt="A stone-and-timber mountain residence terraced into a snowy slope, its full-height windows glowing at dusk.">
+    </picture>
+  </div>
   <div class="hero-inner wrap">
-    <div class="hero-eyebrow eyebrow">ConstructX — Luxury Builds</div>
-    <h1><span class="r"><b>Built for the</b></span><span class="r"><b><em>exceptional.</em></b></span></h1>
+    <p class="hero-eyebrow eyebrow">ConstructX — luxury builds</p>
+    <h1 id="heroTitle"><span class="r"><b>Built for the</b></span><span class="r"><b><em>exceptional.</em></b></span></h1>
     <p class="hero-sub">High-end residential, mountain, lake, commercial, interior, and remodel projects — delivered with engineering discipline, premium craft, and communication you can trust.</p>
     <div class="hero-actions">
-      <a href="#work" class="btn btn-line">Explore projects <span class="a">→</span></a>
-      <a href="#estimate" class="btn btn-solid">Plan a project <span class="a">→</span></a>
+      <a href="#work" class="btn btn-line">Explore projects <span class="a" aria-hidden="true">→</span></a>
+      <a href="#estimate" class="btn btn-solid">Plan a project <span class="a" aria-hidden="true">→</span></a>
     </div>
   </div>
-  <div class="scroll-cue"><span>Scroll</span><span class="l"></span></div>
-  <div class="hero-explore"><span class="o"></span> Drag to rotate</div>
+  <div class="scroll-cue" aria-hidden="true"><span>Scroll</span><span class="l"></span></div>
+  <div class="hero-controls" id="heroControls">
+    <span class="hero-hint" id="heroHint">Drag to rotate</span>
+    <button class="hero-spin" id="heroSpinLeft" type="button" aria-label="Rotate the residence left">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button class="hero-spin" id="heroSpinRight" type="button" aria-label="Rotate the residence right">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
 </section>
 
-<section class="sec" id="approach">
+<section class="sec" id="approach" aria-labelledby="approachTitle">
   <div class="wrap sec-narrow intro reveal">
-    <div class="eyebrow">The ConstructX Approach</div>
-    <h2>We build for owners who notice what others overlook — the alignment of every detail, the precision of every finish, and the way a space belongs to its <em>surroundings</em>.</h2>
+    <p class="eyebrow">The ConstructX approach</p>
+    <h2 id="approachTitle">We build for owners who notice what others overlook — the alignment of every detail, the precision of every finish, and the way a space belongs to its <em>surroundings</em>.</h2>
     <div class="intro-grid">
-      <p>At ConstructX, trust begins before construction does. Every project starts with careful planning, disciplined cost control, clear communication, and uncompromising standards. From the first estimate to the final walkthrough, clients receive visibility into the work, the decisions being made, and what comes next.</p>
+      <p>At ConstructX, trust begins before construction does. Every project starts with careful planning, disciplined cost control, clear communication, and uncompromising standards. From the first estimate to the final walkthrough, clients see the work, the decisions being made, and what comes next.</p>
       <div class="stats">
         <div class="s"><div class="n">Plan</div><div class="k">Scope before the shovel</div></div>
         <div class="s"><div class="n">Control</div><div class="k">Costs reviewed privately</div></div>
@@ -70,203 +143,294 @@
   </div>
 </section>
 
-<section class="sec" id="work" style="padding-top:20px">
+<section class="sec" id="work" aria-labelledby="workTitle">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div><div class="eyebrow">Selected projects</div><h2>A portfolio measured<br>in details.</h2></div>
+      <div><p class="eyebrow">Selected projects</p><h2 id="workTitle">A portfolio measured<br>in details.</h2></div>
       <p>A selection of high-end residential, destination, interior, and specialty builds. Every project is documented the same way and handed over through the client portal.</p>
     </div>
 
-    <div class="feature">
-      <div class="f-media"><img loading="lazy" decoding="async" src="assets/images/aspen-ridge.jpg" alt="Project North Star"><span class="cap">Colorado high country</span></div>
+    <article class="feature">
+      <div class="f-media">
+        <picture>
+          <source type="image/webp" srcset="assets/images/north-star-640.webp 640w, assets/images/north-star-960.webp 960w, assets/images/north-star-1280.webp 1280w" sizes="(max-width: 1000px) 100vw, 55vw">
+          <img loading="lazy" decoding="async" width="1280" height="853"
+               src="assets/images/north-star-960.jpg"
+               srcset="assets/images/north-star-640.jpg 640w, assets/images/north-star-960.jpg 960w, assets/images/north-star-1280.jpg 1280w"
+               sizes="(max-width: 1000px) 100vw, 55vw"
+               alt="Project North Star: a terraced stone-and-timber residence with deep bronze eaves, glowing against snow at dusk.">
+        </picture>
+        <span class="cap">Colorado high country</span>
+      </div>
       <div class="f-text">
-        <div class="f-index">01 — Private Residential</div>
+        <p class="f-index">01 — Private residential</p>
         <h3>Project North Star</h3>
-        <div class="f-loc">Colorado high country · client-protected</div>
+        <p class="f-loc">Colorado high country · client-protected</p>
         <p class="f-desc">A stone-and-timber private residence terraced into the slope, with deep bronze eaves and full-height glazing that glows against the snow at dusk — documented publicly only as an anonymized case study.</p>
-        <div class="f-specs">
-          <div class="f-spec"><div class="k">Materials</div><div class="v">Limestone, reclaimed timber, bronze, oak</div></div>
-          <div class="f-spec"><div class="k">Scale</div><div class="v">Private custom scope</div></div>
-          <div class="f-spec"><div class="k">Profile</div><div class="v">Custom residential build</div></div>
-          <div class="f-spec"><div class="k">Closeout</div><div class="v">Private handover · 2024</div></div>
-        </div>
-        <a href="#contact" class="link-arrow" data-enquiry-type="Residential" data-enquiry-note="I’d like to discuss a private residential project similar to Project North Star.">Discuss a similar project <span class="a">→</span></a>
+        <dl class="f-specs">
+          <div class="f-spec"><dt>Materials</dt><dd>Limestone, reclaimed timber, bronze, oak</dd></div>
+          <div class="f-spec"><dt>Scale</dt><dd>Private custom scope</dd></div>
+          <div class="f-spec"><dt>Profile</dt><dd>Custom residential build</dd></div>
+          <div class="f-spec"><dt>Closeout</dt><dd>Private handover · 2024</dd></div>
+        </dl>
+        <a href="#contact" class="link-arrow" data-enquiry-type="Residential" data-enquiry-note="I'd like to discuss a private residential project similar to Project North Star.">Discuss a similar project <span class="a" aria-hidden="true">→</span></a>
       </div>
-    </div>
+    </article>
 
-    <div class="feature rev">
-      <div class="f-media"><img loading="lazy" decoding="async" src="assets/images/cascade-lodge.jpg" alt="Project Cascade"><span class="cap">Mountain West region</span></div>
+    <article class="feature rev">
+      <div class="f-media">
+        <picture>
+          <source type="image/webp" srcset="assets/images/cascade-640.webp 640w, assets/images/cascade-960.webp 960w, assets/images/cascade-1200.webp 1200w" sizes="(max-width: 1000px) 100vw, 45vw">
+          <img loading="lazy" decoding="async" width="1200" height="700"
+               src="assets/images/cascade-960.jpg"
+               srcset="assets/images/cascade-640.jpg 640w, assets/images/cascade-960.jpg 960w, assets/images/cascade-1200.jpg 1200w"
+               sizes="(max-width: 1000px) 100vw, 45vw"
+               alt="Project Cascade: a gabled basalt-and-steel destination build with a glazed central pavilion under standing-seam roofs.">
+        </picture>
+        <span class="cap">Mountain West region</span>
+      </div>
       <div class="f-text">
-        <div class="f-index">02 — Destination Build</div>
+        <p class="f-index">02 — Destination build</p>
         <h3>Project Cascade</h3>
-        <div class="f-loc">Mountain West · client-protected</div>
+        <p class="f-loc">Mountain West · client-protected</p>
         <p class="f-desc">A gabled destination build in basalt stone and blackened steel, opening through a glazed central pavilion beneath standing-seam roofs, with sensitive site and ownership details held privately.</p>
-        <div class="f-specs">
-          <div class="f-spec"><div class="k">Materials</div><div class="v">Basalt stone, steel, cedar, standing seam</div></div>
-          <div class="f-spec"><div class="k">Scale</div><div class="v">Private estate scope</div></div>
-          <div class="f-spec"><div class="k">Profile</div><div class="v">Estate / destination build</div></div>
-          <div class="f-spec"><div class="k">Closeout</div><div class="v">Private handover · 2025</div></div>
-        </div>
-        <a href="#contact" class="link-arrow" data-enquiry-type="Custom" data-enquiry-note="I’d like to discuss a destination or specialty build similar to Project Cascade.">Discuss a similar project <span class="a">→</span></a>
+        <dl class="f-specs">
+          <div class="f-spec"><dt>Materials</dt><dd>Basalt stone, steel, cedar, standing seam</dd></div>
+          <div class="f-spec"><dt>Scale</dt><dd>Private estate scope</dd></div>
+          <div class="f-spec"><dt>Profile</dt><dd>Estate / destination build</dd></div>
+          <div class="f-spec"><dt>Closeout</dt><dd>Private handover · 2025</dd></div>
+        </dl>
+        <a href="#contact" class="link-arrow" data-enquiry-type="Custom" data-enquiry-note="I'd like to discuss a destination or specialty build similar to Project Cascade.">Discuss a similar project <span class="a" aria-hidden="true">→</span></a>
       </div>
-    </div>
+    </article>
 
-    <div class="feature">
-      <div class="f-media"><img loading="lazy" decoding="async" src="assets/images/aster-residence.jpg" alt="Project Aster"><span class="cap">Southwest Colorado</span></div>
-      <div class="f-text">
-        <div class="f-index">03 — Interior-Led Home</div>
-        <h3>Project Aster</h3>
-        <div class="f-loc">Southwest Colorado · client-protected</div>
-        <p class="f-desc">A warm modern home of cantilevered volumes — cedar screens, travertine, and bronze glazing — with interiors and owner selections tracked through a private approval trail.</p>
-        <div class="f-specs">
-          <div class="f-spec"><div class="k">Materials</div><div class="v">Cedar, travertine, bronze glazing</div></div>
-          <div class="f-spec"><div class="k">Scale</div><div class="v">Private residential scope</div></div>
-          <div class="f-spec"><div class="k">Profile</div><div class="v">Interior-forward residence</div></div>
-          <div class="f-spec"><div class="k">Closeout</div><div class="v">Private handover · 2025</div></div>
-        </div>
-        <a href="#contact" class="link-arrow" data-enquiry-type="Interiors/Remodeling" data-enquiry-note="I’d like to discuss an interior-led home, remodel, or finish-focused project similar to Project Aster.">Discuss a similar project <span class="a">→</span></a>
+    <article class="feature">
+      <div class="f-media">
+        <picture>
+          <source type="image/webp" srcset="assets/images/aster-480.webp 480w, assets/images/aster-626.webp 626w" sizes="(max-width: 1000px) 100vw, 55vw">
+          <img loading="lazy" decoding="async" width="626" height="626"
+               src="assets/images/aster-626.jpg"
+               srcset="assets/images/aster-480.jpg 480w, assets/images/aster-626.jpg 626w"
+               sizes="(max-width: 1000px) 100vw, 55vw"
+               alt="Project Aster: a warm modern home of cantilevered volumes in cedar, travertine, and bronze glazing.">
+        </picture>
+        <span class="cap">Southwest Colorado</span>
       </div>
-    </div>
+      <div class="f-text">
+        <p class="f-index">03 — Interior-led home</p>
+        <h3>Project Aster</h3>
+        <p class="f-loc">Southwest Colorado · client-protected</p>
+        <p class="f-desc">A warm modern home of cantilevered volumes — cedar screens, travertine, and bronze glazing — with interiors and owner selections tracked through a private approval trail.</p>
+        <dl class="f-specs">
+          <div class="f-spec"><dt>Materials</dt><dd>Cedar, travertine, bronze glazing</dd></div>
+          <div class="f-spec"><dt>Scale</dt><dd>Private residential scope</dd></div>
+          <div class="f-spec"><dt>Profile</dt><dd>Interior-forward residence</dd></div>
+          <div class="f-spec"><dt>Closeout</dt><dd>Private handover · 2025</dd></div>
+        </dl>
+        <a href="#contact" class="link-arrow" data-enquiry-type="Interiors/Remodeling" data-enquiry-note="I'd like to discuss an interior-led home, remodel, or finish-focused project similar to Project Aster.">Discuss a similar project <span class="a" aria-hidden="true">→</span></a>
+      </div>
+    </article>
   </div>
 </section>
 
-<section class="band">
-  <div class="band-media"><img id="bandImg" src="assets/images/mountain-estate.jpg" alt="ConstructX mountain estate"></div>
+<section class="band" aria-labelledby="beliefTitle">
+  <div class="band-media">
+    <picture>
+      <source type="image/webp" srcset="assets/images/belief-band-960.webp 960w, assets/images/belief-band-1200.webp 1200w" sizes="100vw">
+      <img id="bandImg" loading="lazy" decoding="async" width="1200" height="700"
+           src="assets/images/belief-band-1200.jpg"
+           srcset="assets/images/belief-band-960.jpg 960w, assets/images/belief-band-1200.jpg 1200w"
+           sizes="100vw" alt="">
+    </picture>
+  </div>
   <div class="band-inner">
-    <div class="eyebrow">Our belief</div>
-    <h2>A home is the most personal thing we build.<br>We treat it that way.</h2>
+    <p class="eyebrow">Our belief</p>
+    <h2 id="beliefTitle">A home is the most personal thing we build.<br>We treat it that way.</h2>
     <p>One team stays accountable from the first massing study to the final punch — and you watch every step as it happens.</p>
   </div>
 </section>
 
-<section class="sec">
+<section class="sec" aria-labelledby="capsTitle">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div><div class="eyebrow">Capabilities</div><h2>Four disciplines,<br>one standard.</h2></div>
+      <div><p class="eyebrow">Capabilities</p><h2 id="capsTitle">Four disciplines,<br>one standard.</h2></div>
       <p>Whatever the scale, the same pre-construction rigor and fixed-quality closeout apply.</p>
     </div>
     <div class="caps reveal">
-      <div class="cap"><div class="ci">01</div><h4>Luxury Residential</h4><p>Custom primary homes, estates, lake houses, mountain homes, and private retreats.</p></div>
-      <div class="cap"><div class="ci">02</div><h4>Commercial Spaces</h4><p>Stores, hospitality, offices, tenant improvements, and high-touch public environments.</p></div>
-      <div class="cap"><div class="ci">03</div><h4>Design-Build</h4><p>Architecture, engineering, interiors, and construction under a single accountable contract.</p></div>
-      <div class="cap"><div class="ci">04</div><h4>Interiors &amp; Remodels</h4><p>Interior buildouts, full remodels, adaptive reuse, restoration, and detailed finish work.</p></div>
+      <div class="cap"><p class="ci">01</p><h3>Luxury residential</h3><p>Custom primary homes, estates, lake houses, mountain homes, and private retreats.</p></div>
+      <div class="cap"><p class="ci">02</p><h3>Commercial spaces</h3><p>Stores, hospitality, offices, tenant improvements, and high-touch public environments.</p></div>
+      <div class="cap"><p class="ci">03</p><h3>Design-build</h3><p>Architecture, engineering, interiors, and construction under a single accountable contract.</p></div>
+      <div class="cap"><p class="ci">04</p><h3>Interiors &amp; remodels</h3><p>Interior buildouts, full remodels, adaptive reuse, restoration, and detailed finish work.</p></div>
     </div>
   </div>
 </section>
 
-<section class="sec sec-lazy" id="process">
+<section class="sec sec-lazy" id="process" aria-labelledby="processTitle">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div><div class="eyebrow">The process</div><h2>Six phases.<br>No surprises.</h2></div>
+      <div><p class="eyebrow">The process</p><h2 id="processTitle">Six phases.<br>No surprises.</h2></div>
       <p>Each phase gate is documented, scoped, and approved before the next begins.</p>
     </div>
     <div class="proc reveal" id="proc">
-      <div class="proc-line"></div><div class="proc-fill" id="procFill"></div>
-      <div class="proc-steps">
-        <div class="proc-step"><div class="proc-node"></div><div class="pn">01</div><h4>Pre-construction</h4><p>Scope, budget, and constructability review before a shovel moves.</p></div>
-        <div class="proc-step"><div class="proc-node"></div><div class="pn">02</div><h4>Sitework</h4><p>Survey, excavation, and utilities set to the coordinate grid.</p></div>
-        <div class="proc-step"><div class="proc-node"></div><div class="pn">03</div><h4>Structure</h4><p>Foundations, framing, and the load path erected and inspected.</p></div>
-        <div class="proc-step"><div class="proc-node"></div><div class="pn">04</div><h4>Envelope</h4><p>Roof, glazing, and weather barrier — the home goes watertight.</p></div>
-        <div class="proc-step"><div class="proc-node"></div><div class="pn">05</div><h4>Interiors</h4><p>Systems, finishes, and millwork to final tolerance.</p></div>
-        <div class="proc-step"><div class="proc-node"></div><div class="pn">06</div><h4>Handover</h4><p>Commissioning, punch, and warranty delivered to the portal.</p></div>
-      </div>
+      <div class="proc-line" aria-hidden="true"></div><div class="proc-fill" id="procFill" aria-hidden="true"></div>
+      <ol class="proc-steps">
+        <li class="proc-step"><span class="proc-node" aria-hidden="true"></span><p class="pn">Phase 01</p><h3>Pre-construction</h3><p>Scope, budget, and constructability review before a shovel moves.</p></li>
+        <li class="proc-step"><span class="proc-node" aria-hidden="true"></span><p class="pn">Phase 02</p><h3>Sitework</h3><p>Survey, excavation, and utilities set to the coordinate grid.</p></li>
+        <li class="proc-step"><span class="proc-node" aria-hidden="true"></span><p class="pn">Phase 03</p><h3>Structure</h3><p>Foundations, framing, and the load path erected and inspected.</p></li>
+        <li class="proc-step"><span class="proc-node" aria-hidden="true"></span><p class="pn">Phase 04</p><h3>Envelope</h3><p>Roof, glazing, and weather barrier — the home goes watertight.</p></li>
+        <li class="proc-step"><span class="proc-node" aria-hidden="true"></span><p class="pn">Phase 05</p><h3>Interiors</h3><p>Systems, finishes, and millwork to final tolerance.</p></li>
+        <li class="proc-step"><span class="proc-node" aria-hidden="true"></span><p class="pn">Phase 06</p><h3>Handover</h3><p>Commissioning, punch, and warranty delivered to the portal.</p></li>
+      </ol>
     </div>
   </div>
 </section>
 
-<section class="sec sec-lazy" id="ownership">
+<section class="sec sec-lazy" id="ownership" aria-labelledby="ownTitle">
   <div class="wrap own">
     <div class="own-copy reveal">
-      <div class="eyebrow">Ownership experience</div>
-      <h2>Your project,<br>private and<br>crystal clear.</h2>
+      <p class="eyebrow">Ownership experience</p>
+      <h2 id="ownTitle">Your project,<br>private and<br>crystal clear.</h2>
       <p>From day one, every client gets an invite-only command center for progress, decisions, documents, photos, and approvals. Public examples stay anonymized, so names, addresses, budgets, and sensitive project details remain protected.</p>
-      <div class="own-feats">
-        <div class="of"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8l4 4 8-9"/></svg> Invite-only access</div>
-        <div class="of"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8l4 4 8-9"/></svg> Client names protected</div>
-        <div class="of"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8l4 4 8-9"/></svg> Daily reports &amp; photos</div>
-        <div class="of"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8l4 4 8-9"/></svg> Approval history</div>
-        <div class="of"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8l4 4 8-9"/></svg> Redacted demo views</div>
-        <div class="of"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8l4 4 8-9"/></svg> Secure document vault</div>
-      </div>
+      <ul class="own-feats">
+        <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M2 8l4 4 8-9"/></svg> Invite-only access</li>
+        <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M2 8l4 4 8-9"/></svg> Client names protected</li>
+        <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M2 8l4 4 8-9"/></svg> Daily reports &amp; photos</li>
+        <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M2 8l4 4 8-9"/></svg> Approval history</li>
+        <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M2 8l4 4 8-9"/></svg> Redacted demo views</li>
+        <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M2 8l4 4 8-9"/></svg> Secure document vault</li>
+      </ul>
     </div>
-    <div class="dash reveal rd1">
-      <div class="dash-top"><div><div class="t">Private Client Portal</div><div class="s">PROJECT ALIAS: NORTH STAR · SECURE VIEW</div></div><div class="dash-live"><span class="d"></span> Encrypted</div></div>
+
+    <figure class="dash reveal rd1">
+      <figcaption class="visually-hidden">An illustration of the ConstructX client portal, showing progress, privacy settings, field reports, and pending approvals.</figcaption>
+      <div class="dash-top">
+        <div><div class="t">Private client portal</div><div class="s">Project alias: North Star · secure view</div></div>
+        <div class="dash-live"><span class="d" aria-hidden="true"></span> Encrypted</div>
+      </div>
       <div class="dash-body">
-        <div class="privacy-strip full">
-          <span><b>Client</b> Private</span><span><b>Address</b> Hidden</span><span><b>Budget</b> Not public</span><span><b>Access</b> Invite-only</span>
+        <ul class="privacy-strip full">
+          <li><b>Client</b> Private</li><li><b>Address</b> Hidden</li><li><b>Budget</b> Not public</li><li><b>Access</b> Invite-only</li>
+        </ul>
+        <div class="tile">
+          <p class="tk">Overall progress</p>
+          <div class="prow"><span class="pv" data-count="68" data-suffix="%">68%</span><span class="pp">on schedule</span></div>
+          <div class="bar"><i data-bar="68"></i></div>
         </div>
-        <div class="tile"><div class="tk">Overall progress</div><div class="prow"><span class="pv" data-count="68" data-suffix="%">0</span><span class="pp">on schedule</span></div><div class="bar"><i data-bar="68"></i></div></div>
-        <div class="tile privacy-tile"><div class="tk">Privacy mode</div><b>Active</b><div class="sub">names, address, budget, and owner details hidden from demo views</div><div class="lock-grid"><span></span><span></span><span></span><span></span></div></div>
-        <div class="tile full"><div class="tk">Latest field report · Today 4:12 PM</div>
-          <div class="report"><div class="thumb"><img loading="lazy" decoding="async" src="assets/images/site-update.jpg" alt="Site update"></div>
-            <div><div class="rt">Interior package ready for owner review</div><div class="rd">Progress photos, notes, and next-step decisions are available in the secure portal. Sensitive location and client details are redacted from any public preview.</div></div></div></div>
-        <div class="vault full">
-          <div><div class="tk">Secure vault</div><strong>Permits</strong><span>Updated</span></div>
-          <div><div class="tk">Selections</div><strong>Lighting</strong><span>Awaiting choice</span></div>
-          <div><div class="tk">Approvals</div><strong>Timeline</strong><span>Signed</span></div>
+        <div class="tile privacy-tile">
+          <p class="tk">Privacy mode</p><b>Active</b>
+          <div class="sub">names, address, budget, and owner details hidden from demo views</div>
+          <div class="lock-grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
         </div>
-        <div class="tile full"><div class="tk">Pending secure approval</div>
-          <div class="co"><div><div class="cot">Selection decision · Exterior lighting package</div><div class="cod">Private review link · no public pricing or client details shown</div></div><a href="#contact" id="coBtn" data-enquiry-type="Custom" data-enquiry-note="I’d like a secure private review path for documents, selections, approvals, or project portal access.">Review securely</a></div></div>
+        <div class="tile full">
+          <p class="tk">Latest field report · today 4:12 PM</p>
+          <div class="report">
+            <div class="thumb">
+              <picture>
+                <source type="image/webp" srcset="assets/images/site-update-200.webp 200w, assets/images/site-update-400.webp 400w" sizes="92px">
+                <img loading="lazy" decoding="async" width="200" height="133" src="assets/images/site-update-200.jpg" srcset="assets/images/site-update-200.jpg 200w, assets/images/site-update-400.jpg 400w" sizes="92px" alt="">
+              </picture>
+            </div>
+            <div><div class="rt">Interior package ready for owner review</div><div class="rd">Progress photos, notes, and next-step decisions are available in the secure portal. Sensitive location and client details are redacted from any public preview.</div></div>
+          </div>
+        </div>
+        <ul class="vault full">
+          <li><p class="tk">Secure vault</p><strong>Permits</strong><span>Updated</span></li>
+          <li><p class="tk">Selections</p><strong>Lighting</strong><span>Awaiting choice</span></li>
+          <li><p class="tk">Approvals</p><strong>Timeline</strong><span>Signed</span></li>
+        </ul>
+        <div class="tile full">
+          <p class="tk">Pending secure approval</p>
+          <div class="co">
+            <div><div class="cot">Selection decision · exterior lighting package</div><div class="cod">Private review link · no public pricing or client details shown</div></div>
+            <a href="#contact" data-enquiry-type="Custom" data-enquiry-note="I'd like a secure private review path for documents, selections, approvals, or project portal access.">Review securely</a>
+          </div>
+        </div>
       </div>
-    </div>
+    </figure>
   </div>
 </section>
 
-<section class="sec est-sec sec-lazy" id="estimate">
+<section class="sec est-sec sec-lazy" id="estimate" aria-labelledby="fitTitle">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div><div class="eyebrow">Project Fit</div><h2>Tell us what you’re building.<br>We’ll shape the next step.</h2></div>
+      <div><p class="eyebrow">Project fit</p><h2 id="fitTitle">Tell us what you're building.<br>We'll shape the next step.</h2></div>
       <p>A quick way to frame fit for luxury homes, lake and mountain properties, commercial spaces, interiors, and remodels — without putting a premature number on screen.</p>
     </div>
     <div class="est reveal">
       <div class="est-controls">
-        <div class="field"><div class="field-l">Project type <b id="lblType">Interiors/Remodeling</b></div><div class="seg" id="segType"><button class="on" data-type="interiors">Interiors/Remodeling</button><button data-type="residential">Residential</button><button data-type="commercial">Commercial</button><button data-type="custom">Custom</button></div></div>
-        <div class="field"><div class="field-l">Approx. size <b id="lblSqft">6,000 sq ft</b></div><input type="range" id="sqft" min="800" max="30000" step="100" value="6000"></div>
-        <div class="field"><div class="field-l">Project stage <b id="lblStage">Planning / budgeting</b></div><div class="seg" id="segStage"><button class="on" data-stage="Planning / budgeting">Planning / budgeting</button><button data-stage="Ready to build">Ready to build</button><button data-stage="In progress / rescue">In progress / rescue</button></div></div>
-      </div>
-      <div class="eo">
-        <div class="eo-l">Project fit snapshot</div>
-        <div class="eo-range" id="eoRange">Interior / remodel review</div>
-        <div class="eo-per" id="eoPer">We’ll align scope, delivery path, and the right ConstructX team before budget is discussed.</div>
-        <div class="eo-break">
-          <div class="eo-line"><span>Category</span><span id="eoBase">Interiors/Remodeling</span></div>
-          <div class="eo-line"><span>Approx. scope</span><span id="eoFin">6,000 sq ft</span></div>
-          <div class="eo-line"><span>Project stage</span><span id="eoStage">Planning / budgeting</span></div>
-          <div class="eo-line"><span>Recommended next step</span><span id="eoDur">Discovery call</span></div>
+        <fieldset class="field">
+          <legend class="field-l">Project type <b id="lblType">Interiors &amp; remodeling</b></legend>
+          <div class="seg" id="segType">
+            <button type="button" aria-pressed="true" data-type="interiors">Interiors &amp; remodeling</button>
+            <button type="button" aria-pressed="false" data-type="residential">Residential</button>
+            <button type="button" aria-pressed="false" data-type="commercial">Commercial</button>
+            <button type="button" aria-pressed="false" data-type="custom">Custom</button>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label class="field-l" for="sqft">Approximate size <b id="lblSqft">6,000 sq ft</b></label>
+          <input type="range" id="sqft" min="800" max="30000" step="100" value="6000" aria-describedby="lblSqft">
         </div>
-        <div class="eo-note">No public calculator can responsibly price a custom build. We’ll review site conditions, design intent, schedule, procurement, and finish expectations privately.</div>
-        <a href="#contact" class="btn btn-solid" id="fitCta">Start a private consultation <span class="a">→</span></a>
+        <fieldset class="field">
+          <legend class="field-l">Project stage <b id="lblStage">Planning / budgeting</b></legend>
+          <div class="seg" id="segStage">
+            <button type="button" aria-pressed="true" data-stage="Planning / budgeting">Planning / budgeting</button>
+            <button type="button" aria-pressed="false" data-stage="Ready to build">Ready to build</button>
+            <button type="button" aria-pressed="false" data-stage="In progress / rescue">In progress / rescue</button>
+          </div>
+        </fieldset>
+      </div>
+      <div class="eo" aria-live="polite">
+        <p class="eo-l">Project fit snapshot</p>
+        <p class="eo-range" id="eoRange">Interior &amp; remodel review</p>
+        <p class="eo-per" id="eoPer">We'll align scope, delivery path, and the right ConstructX team before budget is discussed.</p>
+        <dl class="eo-break">
+          <div class="eo-line"><dt>Category</dt><dd id="eoBase">Interiors &amp; remodeling</dd></div>
+          <div class="eo-line"><dt>Approx. scope</dt><dd id="eoFin">6,000 sq ft</dd></div>
+          <div class="eo-line"><dt>Project stage</dt><dd id="eoStage">Planning / budgeting</dd></div>
+          <div class="eo-line"><dt>Recommended next step</dt><dd id="eoDur">Scope discovery</dd></div>
+        </dl>
+        <p class="eo-note">No public calculator can responsibly price a custom build. We'll review site conditions, design intent, schedule, procurement, and finish expectations privately.</p>
+        <a href="#contact" class="btn btn-solid" id="fitCta">Start a private consultation <span class="a" aria-hidden="true">→</span></a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="sec sec-lazy" id="map">
+<section class="sec sec-lazy" id="map" aria-labelledby="mapTitle">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div><div class="eyebrow">Project map</div><h2>Active and delivered,<br>without the pin-drop.</h2></div>
+      <div><p class="eyebrow">Project map</p><h2 id="mapTitle">Active and delivered,<br>without the pin-drop.</h2></div>
       <p>Select a regional marker to see status without exposing private addresses, exact coordinates, client names, or sensitive project details.</p>
     </div>
     <div class="map-shell reveal">
-      <div class="map-canvas" id="mapCanvas">
-        <svg class="terr" viewBox="0 0 600 500" preserveAspectRatio="none">
+      <div class="map-canvas" id="mapCanvas" role="group" aria-label="Regional project markers">
+        <svg class="terr" viewBox="0 0 600 500" preserveAspectRatio="none" aria-hidden="true" focusable="false">
           <path d="M60 40C120 60 140 30 210 55C280 80 300 40 360 70C420 100 470 60 540 95L540 460C470 440 420 470 350 445C280 420 230 455 160 430C110 412 90 440 60 425Z" fill="#fbfaf7" stroke="#e3dfd6" stroke-width="1.4"/>
           <path d="M200 200C260 210 280 260 250 340" fill="none" stroke="#A8895C" stroke-width="1" opacity=".35" stroke-dasharray="4 4"/>
         </svg>
       </div>
       <div class="map-info">
-        <div class="map-legend"><span class="leg"><span class="d a"></span> Active</span><span class="leg"><span class="d b"></span> Delivered</span></div>
-        <p style="font-size:12.5px;color:var(--faint);line-height:1.7;letter-spacing:.02em">Markers are intentionally approximate. Live details, documents, photos, and owner approvals stay inside each client's private portal.</p>
-        <div class="map-read"><div class="rk">Selected region</div><h3 id="mapName">Project North Star</h3><div class="coord" id="mapCoord">Colorado high country · exact site private</div><div class="status" id="mapStatus"><span class="d" style="background:var(--ink)"></span> Delivered · 2024</div></div>
+        <ul class="map-legend">
+          <li><span class="d a" aria-hidden="true"></span> Active</li>
+          <li><span class="d b" aria-hidden="true"></span> Delivered</li>
+        </ul>
+        <p class="map-note">Markers are intentionally approximate. Live details, documents, photos, and owner approvals stay inside each client's private portal.</p>
+        <div class="map-read" aria-live="polite">
+          <p class="rk">Selected region</p>
+          <h3 id="mapName">Project North Star</h3>
+          <p class="coord" id="mapCoord">Colorado high country · exact site private</p>
+          <p class="status" id="mapStatus"><span class="d done" aria-hidden="true"></span> Delivered · 2024</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="sec">
+<section class="sec" aria-labelledby="standardsTitle">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div><div class="eyebrow">Built-in standards</div><h2>Preparation is<br>part of the craft.</h2></div>
+      <div><p class="eyebrow">Built-in standards</p><h2 id="standardsTitle">Preparation is<br>part of the craft.</h2></div>
       <p>Instead of public performance claims, ConstructX is built around practical controls clients can feel every week: thoughtful planning, clean communication, documented decisions, and careful closeout.</p>
     </div>
     <div class="nums reveal">
@@ -278,46 +442,78 @@
   </div>
 </section>
 
-<section class="sec quote-sec sec-lazy">
-  <div class="quote reveal">
-    <div class="qmark">“</div>
+<section class="sec quote-sec sec-lazy" aria-label="Client feedback">
+  <figure class="quote reveal">
+    <div class="qmark" aria-hidden="true">“</div>
     <blockquote>They ran our project like a flagship operation — every decision documented, every week clear, and the finish is flawless. We watched it come together from two time zones away.</blockquote>
-    <div class="attr"><b>Private client</b> · Project North Star · Completed 2024</div>
-  </div>
+    <figcaption><b>Private client</b> · Project North Star · completed 2024</figcaption>
+  </figure>
 </section>
 
-<section class="sec sec-lazy" id="team">
+<section class="sec sec-lazy" id="team" aria-labelledby="teamTitle">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div><div class="eyebrow">Leadership</div><h2>Builders who<br>read drawings.</h2></div>
-      <p>Pre-construction leads, superintendents, and project executives who came up on the tools.</p>
+      <div><p class="eyebrow">How the team is built</p><h2 id="teamTitle">Builders who<br>read drawings.</h2></div>
+      <p>Every ConstructX project is staffed against the same four roles, so responsibility is never ambiguous.</p>
     </div>
-    <div class="team reveal">
-      <div class="mem"><div class="mono">DW</div><div class="mb"><div class="mn">Dana Whitfield</div><div class="mr">Founder / Principal</div></div></div>
-        <div class="mem"><div class="mono">MR</div><div class="mb"><div class="mn">Marcus Reyes</div><div class="mr">Preconstruction Lead</div></div></div>
-      <div class="mem"><div class="mono">PA</div><div class="mb"><div class="mn">Priya Anand</div><div class="mr">Head of VDC / BIM</div></div></div>
-      <div class="mem"><div class="mono">SO</div><div class="mb"><div class="mn">Sam Okafor</div><div class="mr">General Superintendent</div></div></div>
+    <div class="roles reveal">
+      <div class="role">
+        <div class="role-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" focusable="false"><path d="M3 20h18M6 20V9l6-5 6 5v11M10 20v-5h4v5"/></svg></div>
+        <div class="role-body"><h3>Principal</h3><p>Owns the contract, the standard of finish, and the relationship with you.</p></div>
+      </div>
+      <div class="role">
+        <div class="role-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" focusable="false"><path d="M4 4h16v16H4zM8 9h8M8 13h8M8 17h5"/></svg></div>
+        <div class="role-body"><h3>Preconstruction lead</h3><p>Sets scope, budget, and constructability before anyone breaks ground.</p></div>
+      </div>
+      <div class="role">
+        <div class="role-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" focusable="false"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></div>
+        <div class="role-body"><h3>VDC &amp; coordination</h3><p>Runs the model, resolves clashes, and keeps drawings and field in sync.</p></div>
+      </div>
+      <div class="role">
+        <div class="role-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true" focusable="false"><path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6"/><circle cx="12" cy="13" r="1.2"/></svg></div>
+        <div class="role-body"><h3>Superintendent</h3><p>Holds the schedule, the trades, and the quality bar on site every day.</p></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="sec sec-lazy" id="contact">
+<section class="sec sec-lazy" id="contact" aria-labelledby="contactTitle">
   <div class="wrap">
     <div class="contact reveal">
       <div class="contact-inner">
         <div>
-          <div class="eyebrow">Begin an enquiry</div>
-          <h2>Let's shape<br>your next<br>project.</h2>
+          <p class="eyebrow">Begin an enquiry</p>
+          <h2 id="contactTitle">Let's shape<br>your next<br>project.</h2>
           <p>Tell us what you're planning — a luxury home, lake or mountain property, commercial space, interior buildout, remodel, or something completely unique. We'll respond within one business day with the right next step.</p>
         </div>
-        <form class="cform" id="contactForm" novalidate>
-          <label class="fl" for="cName">Name</label><input type="text" placeholder="Your name" id="cName" name="name" autocomplete="name" required>
-          <label class="fl" for="cEmail">Email</label><input type="email" placeholder="you@email.com" id="cEmail" name="email" autocomplete="email" required>
+        <form class="cform" id="contactForm" method="post" action="/api/enquiries" novalidate>
+          <label class="fl" for="cName">Name</label>
+          <input type="text" id="cName" name="name" placeholder="Your name" autocomplete="name" required aria-describedby="errName">
+          <span class="field-error" id="errName" role="alert"></span>
+
+          <label class="fl" for="cEmail">Email</label>
+          <input type="email" id="cEmail" name="email" placeholder="you@email.com" autocomplete="email" required aria-describedby="errEmail">
+          <span class="field-error" id="errEmail" role="alert"></span>
+
           <label class="fl" for="cType">What are we building?</label>
-          <select id="cType" name="projectType" required><option>Interiors/Remodeling</option><option>Residential</option><option>Commercial</option><option>Custom</option></select>
-          <label class="fl" for="cNotes">Project notes</label><textarea id="cNotes" name="notes" rows="4" maxlength="1200" placeholder="Tell us the location, scope, timeline, or any early details you want protected."></textarea>
-          <div class="form-note">Private by default. Your enquiry is stored locally by the Python app and never shown on the public page.</div>
-          <button class="btn btn-solid" id="ctaSend" type="submit"><span class="btn-label">Start a project conversation</span> <span class="a">→</span></button>
+          <select id="cType" name="projectType" required aria-describedby="errType">
+            <option value="Interiors/Remodeling">Interiors &amp; remodeling</option>
+            <option value="Residential">Residential</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Custom">Custom</option>
+          </select>
+          <span class="field-error" id="errType" role="alert"></span>
+
+          <label class="fl" for="cNotes">Project notes</label>
+          <textarea id="cNotes" name="notes" rows="4" maxlength="1200" placeholder="Tell us the location, scope, timeline, or any early details you want protected."></textarea>
+
+          <div class="hp" aria-hidden="true">
+            <label for="cCompany">Company</label>
+            <input type="text" id="cCompany" name="company" tabindex="-1" autocomplete="off">
+          </div>
+
+          <p class="form-note">Private by default. Your enquiry goes to the ConstructX team and is never shown on this page.</p>
+          <button class="btn btn-solid" id="ctaSend" type="submit"><span class="btn-label">Start a project conversation</span> <span class="a" aria-hidden="true">→</span></button>
           <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -325,20 +521,36 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="wrap">
     <div class="foot-top">
-      <div class="foot-brand"><a href="#top" class="brand">Construct<span class="x" style="color:var(--bronze)">X</span></a><p>High-end residential, mountain, lake, commercial, interior, and remodel projects — engineered with the discipline of a technology company.</p></div>
-      <div class="foot-col"><h5>Company</h5><a href="#approach">Approach</a><a href="#process">Process</a><a href="#ownership">Client portal</a><a href="#contact">Contact</a></div>
-      <div class="foot-col"><h5>Work</h5><a href="#work">Projects</a><a href="#map">Current projects</a><a href="#ownership">Ownership</a></div>
-      <div class="foot-col"><h5>Get started</h5><a href="#estimate">Project Fit</a><a href="#contact">Enquiry</a><a href="#contact">Contact</a></div>
+      <div class="foot-brand">
+        <a href="#top" class="brand">Construct<span class="x">X</span></a>
+        <p>High-end residential, mountain, lake, commercial, interior, and remodel projects — engineered with the discipline of a technology company.</p>
+      </div>
+      <nav class="foot-col" aria-labelledby="footCompany">
+        <h2 id="footCompany">Company</h2>
+        <a href="#approach">Approach</a><a href="#process">Process</a><a href="#team">Team</a><a href="#contact">Contact</a>
+      </nav>
+      <nav class="foot-col" aria-labelledby="footWork">
+        <h2 id="footWork">Work</h2>
+        <a href="#work">Projects</a><a href="#map">Project map</a><a href="#ownership">Client portal</a>
+      </nav>
+      <nav class="foot-col" aria-labelledby="footStart">
+        <h2 id="footStart">Get started</h2>
+        <a href="#estimate">Project fit</a><a href="#contact">Begin an enquiry</a>
+      </nav>
     </div>
-    <div class="foot-bot"><span>© 2026 ConstructX Builders LLC · Lic. CCX-4417</span><span>Colorado &amp; the Mountain West</span></div>
+    <div class="foot-bot">
+      <span>&copy; <span id="year">2026</span> ConstructX Builders LLC</span>
+      <span>Colorado &amp; the Mountain West</span>
+    </div>
   </div>
 </footer>
 
-<script src="assets/js/app.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="assets/js/hero-3d.js"></script>
+<script src="assets/js/app.js" defer></script>
+<script src="assets/js/hero-3d.js" defer></script>
 </body>
 </html>

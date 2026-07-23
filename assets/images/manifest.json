@@ -1,0 +1,218 @@
+{
+  "hero-mountain-residence": {
+    "source": "hero-mountain-residence.jpg",
+    "sourceHash": "80394d43996b",
+    "intrinsic": {
+      "width": 1536,
+      "height": 1024
+    },
+    "placeholder": "#635f66",
+    "variants": [
+      {
+        "file": "hero-mountain-residence-960.webp",
+        "width": 960,
+        "bytes": 93740
+      },
+      {
+        "file": "hero-mountain-residence-960.jpg",
+        "width": 960,
+        "bytes": 140099
+      },
+      {
+        "file": "hero-mountain-residence-1440.webp",
+        "width": 1440,
+        "bytes": 174552
+      },
+      {
+        "file": "hero-mountain-residence-1440.jpg",
+        "width": 1440,
+        "bytes": 279858
+      },
+      {
+        "file": "hero-mountain-residence-1536.webp",
+        "width": 1536,
+        "bytes": 198540
+      },
+      {
+        "file": "hero-mountain-residence-1536.jpg",
+        "width": 1536,
+        "bytes": 329146
+      }
+    ]
+  },
+  "north-star": {
+    "source": "north-star.jpg",
+    "sourceHash": "80394d43996b",
+    "intrinsic": {
+      "width": 1536,
+      "height": 1024
+    },
+    "placeholder": "#635f66",
+    "variants": [
+      {
+        "file": "north-star-640.webp",
+        "width": 640,
+        "bytes": 53070
+      },
+      {
+        "file": "north-star-640.jpg",
+        "width": 640,
+        "bytes": 75785
+      },
+      {
+        "file": "north-star-960.webp",
+        "width": 960,
+        "bytes": 106236
+      },
+      {
+        "file": "north-star-960.jpg",
+        "width": 960,
+        "bytes": 156234
+      },
+      {
+        "file": "north-star-1280.webp",
+        "width": 1280,
+        "bytes": 168010
+      },
+      {
+        "file": "north-star-1280.jpg",
+        "width": 1280,
+        "bytes": 256803
+      }
+    ]
+  },
+  "cascade": {
+    "source": "cascade.jpg",
+    "sourceHash": "fb7b2d0b6dfc",
+    "intrinsic": {
+      "width": 1200,
+      "height": 700
+    },
+    "placeholder": "#67797e",
+    "variants": [
+      {
+        "file": "cascade-640.webp",
+        "width": 640,
+        "bytes": 49642
+      },
+      {
+        "file": "cascade-640.jpg",
+        "width": 640,
+        "bytes": 67207
+      },
+      {
+        "file": "cascade-960.webp",
+        "width": 960,
+        "bytes": 106406
+      },
+      {
+        "file": "cascade-960.jpg",
+        "width": 960,
+        "bytes": 145369
+      },
+      {
+        "file": "cascade-1200.webp",
+        "width": 1200,
+        "bytes": 175762
+      },
+      {
+        "file": "cascade-1200.jpg",
+        "width": 1200,
+        "bytes": 247177
+      }
+    ]
+  },
+  "aster": {
+    "source": "aster.jpg",
+    "sourceHash": "a7ee38be0b27",
+    "intrinsic": {
+      "width": 626,
+      "height": 626
+    },
+    "placeholder": "#6d6769",
+    "variants": [
+      {
+        "file": "aster-480.webp",
+        "width": 480,
+        "bytes": 23774
+      },
+      {
+        "file": "aster-480.jpg",
+        "width": 480,
+        "bytes": 41700
+      },
+      {
+        "file": "aster-626.webp",
+        "width": 626,
+        "bytes": 40392
+      },
+      {
+        "file": "aster-626.jpg",
+        "width": 626,
+        "bytes": 71509
+      }
+    ]
+  },
+  "belief-band": {
+    "source": "belief-band.jpg",
+    "sourceHash": "fb7b2d0b6dfc",
+    "intrinsic": {
+      "width": 1200,
+      "height": 700
+    },
+    "placeholder": "#67797e",
+    "variants": [
+      {
+        "file": "belief-band-960.webp",
+        "width": 960,
+        "bytes": 92232
+      },
+      {
+        "file": "belief-band-960.jpg",
+        "width": 960,
+        "bytes": 122471
+      },
+      {
+        "file": "belief-band-1200.webp",
+        "width": 1200,
+        "bytes": 153978
+      },
+      {
+        "file": "belief-band-1200.jpg",
+        "width": 1200,
+        "bytes": 222055
+      }
+    ]
+  },
+  "site-update": {
+    "source": "site-update.jpg",
+    "sourceHash": "80394d43996b",
+    "intrinsic": {
+      "width": 1536,
+      "height": 1024
+    },
+    "placeholder": "#635f66",
+    "variants": [
+      {
+        "file": "site-update-200.webp",
+        "width": 200,
+        "bytes": 7654
+      },
+      {
+        "file": "site-update-200.jpg",
+        "width": 200,
+        "bytes": 10345
+      },
+      {
+        "file": "site-update-400.webp",
+        "width": 400,
+        "bytes": 25214
+      },
+      {
+        "file": "site-update-400.jpg",
+        "width": 400,
+        "bytes": 34798
+      }
+    ]
+  }
+}

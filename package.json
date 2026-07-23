@@ -1,17 +1,22 @@
 {
   "name": "constructx",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "ConstructX website with a TypeScript frontend and Python backend server.",
+  "description": "ConstructX website — TypeScript frontend, dependency-free Python server.",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "dev": "npm run build && python app.py",
-    "start": "python app.py",
-    "backend:start": "python app.py",
-    "frontend:build": "tsc -p tsconfig.json",
-    "frontend:watch": "tsc -p tsconfig.json --watch"
+    "watch": "tsc -p tsconfig.json --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "images": "python3 tools/build_images.py",
+    "start": "python3 app.py",
+    "dev": "npm run build && python3 app.py",
+    "test": "python3 -m unittest discover -s tests -v",
+    "check": "npm run typecheck && npm test"
   },
   "devDependencies": {
     "typescript": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

@@ -1,0 +1,9 @@
+# ConstructX
+# Replace the Sitemap host below with the production domain before launch.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /data/
+
+Sitemap: https://constructx.example.com/sitemap.xml

@@ -1,0 +1,17 @@
+{
+  "name": "ConstructX",
+  "short_name": "ConstructX",
+  "description": "High-end residential, commercial, interior, and remodel construction.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F2F0EB",
+  "theme_color": "#1E1A15",
+  "icons": [
+    {
+      "src": "/assets/images/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,14 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2022",
     "module": "preserve",
-    "lib": ["DOM", "ES2020"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "rootDir": "frontend/src",
     "outDir": "assets/js",
-    "strict": false,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
     "skipLibCheck": true,
-    "sourceMap": false
+    "removeComments": true,
+    "sourceMap": true
   },
   "include": ["frontend/src/**/*.ts"]
 }
