@@ -86,15 +86,21 @@
   segWire('segStage',function(b){state.stageName=b.getAttribute('data-stage')||b.textContent;});
   document.getElementById('sqft').addEventListener('input',function(){state.sqft=parseInt((this as HTMLInputElement).value,10);calc();});
   calc();
+  function prefillContact(projectType,note){
+    var type=document.getElementById('cType') as HTMLSelectElement,notes=document.getElementById('cNotes') as HTMLTextAreaElement,name=document.getElementById('cName') as HTMLInputElement;
+    if(type&&projectType)type.value=projectType;
+    if(notes&&note&&!notes.value.trim())notes.value=note;
+    setTimeout(function(){if(name)name.focus({preventScroll:true});},80);
+  }
   var fitCta=document.getElementById('fitCta');
   if(fitCta)fitCta.addEventListener('click',function(){
-    var type=document.getElementById('cType') as HTMLSelectElement,notes=document.getElementById('cNotes') as HTMLTextAreaElement,name=document.getElementById('cName') as HTMLInputElement;
-    var summary='Project fit: '+typeName[state.type]+' · '+state.sqft.toLocaleString()+' sq ft · '+state.stageName+'.';
-    if(type)type.value=typeName[state.type];
-    if(notes&&!notes.value.trim())notes.value=summary;
-    setTimeout(function(){if(name)name.focus({preventScroll:true});},80);
+    prefillContact(typeName[state.type],'Project fit: '+typeName[state.type]+' · '+state.sqft.toLocaleString()+' sq ft · '+state.stageName+'.');
   });
-  var coBtn=document.getElementById('coBtn');if(coBtn)coBtn.addEventListener('click',function(){this.textContent='Decision logged ✓';this.style.background='var(--bronze-d)';});
+  document.querySelectorAll('[data-enquiry-note]').forEach(function(link){
+    link.addEventListener('click',function(){
+      prefillContact((link as HTMLElement).getAttribute('data-enquiry-type'),(link as HTMLElement).getAttribute('data-enquiry-note'));
+    });
+  });
   var contactForm=document.getElementById('contactForm') as HTMLFormElement,ctaSend=document.getElementById('ctaSend') as HTMLButtonElement,formStatus=document.getElementById('formStatus');
   function setFormStatus(msg,type){if(!formStatus)return;formStatus.textContent=msg;formStatus.className='form-status '+(type||'');}
   function setInvalid(el,on){if(el)el.classList.toggle('is-invalid',!!on);}
